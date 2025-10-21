@@ -35,3 +35,45 @@ body {
     text-align: center;
     box-sizing: border-box; 
 }
+.form {
+    text-align: left;
+}
+.title {
+    color: var(--primary); 
+    font-size: 2.5em; 
+    font-weight: 900;
+    margin-bottom: 5px; 
+    display: block;
+}
+
+.subtitle { /* Estilo para "Iniciar Sesión" o "Registro" */
+    color: var(--dark);
+    font-size: 1.6rem; 
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 30px; 
+}
+
+input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.btn--log--reg {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn--log--reg:hover {
+    background-color: var(--dark);
+}
