@@ -9,29 +9,26 @@
 }
 
 body {
-/* Usar un gradiente que se asemeje al de las imágenes */
     background: var(--light);
-/* Asegura que el fondo cubra toda la página y que el contenido esté centrado */
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
-    font-family: sans-serif; /* Elegir una tipografía legible */
+    font-family: sans-serif; 
 }
 
 .id--body {
     background: linear-gradient(to bottom right, var(--primary), var(--secondary));
 }
 
-/* Componente: La Tarjeta Blanca */
 .card {
     background-color: var(--light);
-    padding: 30px 40px; /* Espaciado interno consistente */
+    padding: 30px 40px; 
     border-radius: 10px; 
-    box-shadow: 0 5px 20px var(--dark); /* Sombra estandarizada */
+    box-shadow: 0 5px 20px var(--dark); 
     width: 100%;
-    max-width: 380px; /* Ancho estandarizado */
+    max-width: 380px; 
     text-align: center;
     box-sizing: border-box; 
 }
@@ -46,7 +43,7 @@ body {
     display: block;
 }
 
-.subtitle { /* Estilo para "Iniciar Sesión" o "Registro" */
+.subtitle {
     color: var(--dark);
     font-size: 1.6rem; 
     font-weight: 600;
