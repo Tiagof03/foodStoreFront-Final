@@ -1,4 +1,4 @@
-:root {
+:root { 
   --primary: #ff6b35; /* Naranja principal */
   --secondary: #f7931e; /* Naranja secundario */
   --dark: #2d3436; /* Texto oscuro */
@@ -7,9 +7,10 @@
   --danger: #d63031; /* Rojo peligro */
   --gray: #dfe6e9; /* Gris borders */
 }
+
 body {
 /* Usar un gradiente que se asemeje al de las imágenes */
-    background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+    background: var(--light);
 /* Asegura que el fondo cubra toda la página y que el contenido esté centrado */
     min-height: 100vh;
     display: flex;
@@ -17,4 +18,20 @@ body {
     align-items: center;
     margin: 0;
     font-family: sans-serif; /* Elegir una tipografía legible */
+}
+
+.id--body {
+    background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+}
+
+/* Componente: La Tarjeta Blanca */
+.card {
+    background-color: white;
+    padding: 30px 40px; /* Espaciado interno consistente */
+    border-radius: 10px; 
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Sombra estandarizada */
+    width: 100%;
+    max-width: 380px; /* Ancho estandarizado */
+    text-align: center;
+    box-sizing: border-box; 
 }

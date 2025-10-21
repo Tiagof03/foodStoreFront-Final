@@ -4,11 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../style.css">
     <title>Document</title>
 </head>
 
-<body>
-    <h1>Hola desde el registro</h1>
+<body class="id--body">
+    <section class="card">
+        <h1 class="title"> SuperFood</h1>
+        <h2>Registro</h2>
+        <form class="form">
+            <div>
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="name" autocomplete="off" placeholder="Tu nombre">
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="off" placeholder="example@example.com">
+            </div>
+            <div>
+                <label for="password">password</label>
+                <input type="password" id="password" name="password" autocomplete="off" placeholder="********">
+            </div>
+            <button type="submit">Registrar</button>
+        </form>
+        <p class="form-link">
+            ¿Ya tienes cuenta? <a href="../login/login.html">Iniciar Sesión</a>
+        </p>
+    </section>
+    <script type="module" src="registro.ts"></script>
 </body>
 
 </html>
