@@ -1,0 +1,20 @@
+:root {
+  --primary: #ff6b35; /* Naranja principal */
+  --secondary: #f7931e; /* Naranja secundario */
+  --dark: #2d3436; /* Texto oscuro */
+  --light: #f5f6fa; /* Fondo claro */
+  --success: #00b894; /* Verde éxito */
+  --danger: #d63031; /* Rojo peligro */
+  --gray: #dfe6e9; /* Gris borders */
+}
+body {
+/* Usar un gradiente que se asemeje al de las imágenes */
+    background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+/* Asegura que el fondo cubra toda la página y que el contenido esté centrado */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: sans-serif; /* Elegir una tipografía legible */
+}
