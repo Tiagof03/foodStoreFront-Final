@@ -1,30 +1,51 @@
-import type { IUser } from "../../../types/IUser";
+import type { IUserLogin } from "../../../types/IUser";
 import type { Rol } from "../../../types/Rol";
 import { navigate } from "../../../utils/navigate";
 
-const form = document.getElementById("form") as HTMLFormElement;
-const inputEmail = document.getElementById("email") as HTMLInputElement;
-//const inputPassword = document.getElementById("password") as HTMLInputElement;
-const selectRol = document.getElementById("rol") as HTMLSelectElement;
+const loginForm = document.getElementById("form") as HTMLFormElement;
+const emailInput = document.getElementById("email") as HTMLInputElement;
+const passwordInput = document.getElementById("password") as HTMLInputElement;
 
-form.addEventListener("submit", (e: SubmitEvent) => {
+loginForm.addEventListener("submit", async (e: SubmitEvent) => {
   e.preventDefault();
-  const valueEmail = inputEmail.value;
-  //const valuePassword = inputPassword.value;
-  const valueRol = selectRol.value as Rol;
 
-  if (valueRol === "admin") {
-    navigate("/src/pages/admin/home/home.html");
-  } else if (valueRol === "client") {
-    navigate("/src/pages/client/home/home.html");
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    alert("NO están todos los datos");
+    return;
   }
 
-  const user: IUser = {
-    email: valueEmail,
-    role: valueRol,
-    loggedIn: true,
+  const user: IUserLogin = {
+    email,
+    contrasenia: password,
   };
 
-  const parseUser = JSON.stringify(user);
-  localStorage.setItem("userData", parseUser);
+  try {
+    const response = await fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      alert("Credenciales inválidas");
+      return;
+    }
+
+    const data = await response.json();
+    const rol: Rol = data.rol;
+
+    if (rol === "admin") {
+      navigate("/src/pages/admin/home/home.html");
+    } else {
+      navigate("/src/pages/client/home/home.html");
+    }
+  } catch (error) {
+    console.error("Error en login:", error);
+    alert("Ocurrió un error al iniciar sesión");
+  }
 });
