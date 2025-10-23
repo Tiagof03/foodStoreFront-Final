@@ -1,27 +1,33 @@
-import type { IUser } from "../types/IUser";
-import type { Rol } from "../types/Rol";
-import { getUser, /*removeUser*/ } from "./localStorage";
+import type { IUserLogin, IUserRegistro, IUserResponse } from "../types/IUser"; // Agrega IUserResponse
 import { navigate } from "./navigate";
+import { loginUser, createUser } from "../service/api";
 
-export const checkAuthUser = (
-  redireccion1: string, // a dónde ir si NO está logueado
-  redireccion2: string, // a dónde ir si NO tiene el rol correcto
-  rol: Rol              // rol necesario para entrar
-) => {
-  console.log("comienzo de checkeo");
-  const userString = getUser();
 
-  if (!userString) {
-    console.log("No existe usuario en localStorage");
-    navigate(redireccion1);
-    return;
-  } else {
-    const parsedUser: IUser = JSON.parse(userString);
-    if (parsedUser.rol !== rol) {
-      console.log("Usuario sin el rol necesario");
-      navigate(redireccion2);
-      return;
+export const registerAndSaveSession = async (userData: IUserRegistro) => { // 👈 Renombrado y async
+    try {
+        const data: IUserResponse = await createUser(userData); 
+        console.log('✅ Usuario registrado y sesión guardada:', data);
+        localStorage.setItem('userData', JSON.stringify(data)); 
+        return data; 
+    } catch (err) {
+        console.error('❌ Error al registrar usuario:', err);
+        throw err; 
     }
-  }
-  // Si pasa el check, el usuario tiene rol correcto y puede seguir
+};
+
+export const loginAndSaveSession = async (userData: IUserLogin) => { // 👈 Renombrado y async
+    try {
+        const data: IUserResponse = await loginUser(userData);
+        console.log('✅ Inicio de sesión exitoso:', data);
+        localStorage.setItem('userData', JSON.stringify(data)); 
+        return data;
+    } catch (err) {
+        console.error('❌ Error al iniciar sesión:', err);
+        throw err;
+    }
+};
+
+export const logoutUser = () => {
+    localStorage.removeItem("userData");
+    navigate("/src/pages/auth/login/login.html");
 };
