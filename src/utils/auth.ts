@@ -1,9 +1,9 @@
-import type { IUserLogin, IUserRegistro, IUserResponse } from "../types/IUser"; // Agrega IUserResponse
+import type { IUserLogin, IUserRegistro, IUserResponse } from "../types/IUser"; 
 import { navigate } from "./navigate";
 import { loginUser, createUser } from "../service/api";
 
 
-export const registerAndSaveSession = async (userData: IUserRegistro) => { // 👈 Renombrado y async
+export const registerAndSaveSession = async (userData: IUserRegistro) => { 
     try {
         const data: IUserResponse = await createUser(userData); 
         console.log('✅ Usuario registrado y sesión guardada:', data);
@@ -15,7 +15,7 @@ export const registerAndSaveSession = async (userData: IUserRegistro) => { // �
     }
 };
 
-export const loginAndSaveSession = async (userData: IUserLogin) => { // 👈 Renombrado y async
+export const loginAndSaveSession = async (userData: IUserLogin) => {
     try {
         const data: IUserResponse = await loginUser(userData);
         console.log('✅ Inicio de sesión exitoso:', data);
