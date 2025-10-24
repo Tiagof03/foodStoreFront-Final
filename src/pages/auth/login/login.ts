@@ -4,7 +4,6 @@ import { loginUser } from "../../../service/api";
 import { saveUser } from "../../../utils/localStorage";
 import { navigateTo } from "../../../utils/navigate";
 import type { ILogin } from "../../../types/IUser";
-// import { Rol } from "../../../types/Rol"; // Ya no necesitamos importar el tipo Rol si lo usamos como string literal
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("login-form") as HTMLFormElement;
