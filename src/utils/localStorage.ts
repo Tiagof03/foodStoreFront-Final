@@ -1,30 +1,42 @@
-import type { IUserLogin, IUserRegistro } from "../types/IUser";
-import { navigate } from "./navigate";
-import { loginUser, createUser } from "../service/api";
+// /src/utils/localStorage.ts
 
-export const saveUserC = (userData: IUserRegistro) => {
-  createUser(userData)
-    .then((data) => {
-      console.log('✅ Usuario guardado en backend:', data);
-      localStorage.setItem('userData', JSON.stringify(data)); // guardás el que vuelve del backend
-    })
-    .catch((err) => {
-      console.error('❌ Error al guardar usuario:', err);
-    });
-};
+import type { IUser } from "../types/IUser";
 
-export const saveUser = (userData: IUserLogin) => {
-  loginUser(userData)
-    .then((data) => {
-      console.log('✅ Usuario guardado en backend:', data);
-      localStorage.setItem('userData', JSON.stringify(data)); // guardás el que vuelve del backend
-    })
-    .catch((err) => {
-      console.error('❌ Error al guardar usuario:', err);
-    });
-};
+const USER_STORAGE_KEY = "currentUser";
 
-export const logoutUser = () => {
-  localStorage.removeItem("userData");
-  navigate("/src/pages/auth/login/login.html");
-};
+/**
+ * Guarda el objeto de usuario autenticado en el localStorage.
+ * @param user El objeto IUser a guardar.
+ */
+export function saveUser(user: IUser): void {
+    try {
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+    } catch (e) {
+        console.error("Error al guardar usuario en localStorage:", e);
+    }
+}
+
+/**
+ * Recupera el objeto de usuario del localStorage.
+ * @returns El objeto IUser si existe, o null.
+ */
+export function loadUser(): IUser | null {
+    try {
+        const storedUser = localStorage.getItem(USER_STORAGE_KEY);
+        return storedUser ? JSON.parse(storedUser) as IUser : null;
+    } catch (e) {
+        console.error("Error al cargar usuario de localStorage:", e);
+        return null;
+    }
+}
+
+/**
+ * Elimina el objeto de usuario del localStorage (para el logout).
+ */
+export function removeUser(): void {
+    try {
+        localStorage.removeItem(USER_STORAGE_KEY);
+    } catch (e) {
+        console.error("Error al eliminar usuario de localStorage:", e);
+    }
+}

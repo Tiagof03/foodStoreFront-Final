@@ -1,76 +1,56 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+// /src/service/api.ts
 
-import type { IUserLogin, IUserRegistro, IUserResponse } from "../types/IUser";
+import type { IUser, IRegister, ILogin } from "../types/IUser";
 
-export const createUser = async (userData: IUserRegistro): Promise<IUserResponse> => {
-    try {
-        const urlCrear = `${API_BASE_URL}/guardar/`;
-        const response = await fetch(urlCrear, {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-    });
+// Define la URL base de tu backend
+const API_BASE_URL = "http://localhost:8080/usuario"; 
 
-    // Verificar si la respuesta es exitosa
+/**
+ * Función para manejar la respuesta JSON o un error del servidor.
+ * @param response La respuesta de la fetch API.
+ * @returns El objeto JSON de la respuesta.
+ */
+async function handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Error ${response.status}: ${errorText}`);
+        // Si hay un error, intentamos leer el cuerpo del error
+        const errorBody = await response.text();
+        // Lanzamos una excepción con el mensaje de error del backend
+        throw new Error(errorBody || `Error HTTP: ${response.status}`);
     }
+    return response.json();
+}
 
-    // Parsear la respuesta JSON
-        const data: IUserResponse = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Error al crear usuario:", error);
-        throw error;
-    }
-};
-
-export const loginUser = async (userData: IUserLogin): Promise<IUserResponse> => {
-    try {
-        // 1. Construir la URL completa con las credenciales
-        const urlConCredenciales = 
-            `${API_BASE_URL}/login/${userData.email}/${userData.contrasenia}`;
-
-        // 2. Usar FETCH con el método GET y sin 'body'
-        const response = await fetch(urlConCredenciales, {
-            method: "GET", // Cambiado a GET
-            headers: {
-                // Ya no es estrictamente necesario, pero se puede mantener
-                "Content-Type": "application/json", 
-            }
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Error ${response.status}: ${errorText}`);
-        }
-
-        const data: IUserResponse = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Error al iniciar sesión (INSEGURO):", error);
-        throw error;
-    }
-};
-
-export const deleteUser = async (id: number): Promise<void> => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/eliminar/${id}`, {
-            method: "DELETE",
-            headers: {
+/**
+ * Registra un nuevo usuario en el sistema.
+ * @param data Los datos del formulario de registro.
+ * @returns El objeto IUser del usuario creado.
+ */
+export async function registerUser(data: IRegister): Promise<IUser> {
+    const response = await fetch(`${API_BASE_URL}/guardar`, {
+        method: "POST",
+        headers: {
             "Content-Type": "application/json",
         },
+        body: JSON.stringify(data),
     });
 
-if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Error ${response.status}: ${errorText}`);
-    }
-} catch (error) {
-    console.error(`Error al eliminar usuario con ID ${id}:`, error);
-    throw error;
+    return handleResponse<IUser>(response);
 }
-};
+
+/**
+ * Inicia sesión de un usuario en el sistema.
+ * @param data Las credenciales de email y contraseña.
+ * @returns El objeto IUser del usuario autenticado.
+ */
+export async function loginUser(data: ILogin): Promise<IUser> {
+    // Usamos POST y Body, como acordamos. El endpoint es /usuario/login
+    const response = await fetch(`${API_BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+
+    return handleResponse<IUser>(response);
+}

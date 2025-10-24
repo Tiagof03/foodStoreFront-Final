@@ -15,7 +15,7 @@ export const registerAndSaveSession = async (userData: IUserRegistro) => {
     }
 };
 
-export const loginAndSaveSession = async (userData: IUserLogin) => {
+export const loginAndSaveSession = async (userData: IUserLogin) => { // 👈 Renombrado y async
     try {
         const data: IUserResponse = await loginUser(userData);
         console.log('✅ Inicio de sesión exitoso:', data);

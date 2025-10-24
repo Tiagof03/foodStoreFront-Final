@@ -7,7 +7,6 @@ buttonLogout?.addEventListener("click", () => {
   logout();
 });
 
-
 const initPage = () => {
   console.log("inicio de pagina");
   checkAuhtUser(
