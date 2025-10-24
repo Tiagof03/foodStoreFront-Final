@@ -29,15 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const user = await registerUser(payload);
-            
-            // 1. Guardar el usuario en el almacenamiento local
             saveUser(user);
-            
-            // 2. Redirigir al usuario (ejemplo: a la página principal del cliente)
             navigateTo("/client/home.html"); 
-
         } catch (error) {
-            // Mostrar error del backend (ej: "El correo ya está registrado")
             errorMessageElement.textContent = (error as Error).message;
         }
     });

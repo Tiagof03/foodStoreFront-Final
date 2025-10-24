@@ -1,5 +1,3 @@
-// /src/utils/localStorage.ts
-
 import type { IUser } from "../types/IUser";
 
 const USER_STORAGE_KEY = "currentUser";

@@ -27,19 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const user = await loginUser(payload);
-            
-            // 1. Guardar el usuario en el almacenamiento local
             saveUser(user);
-            
-            // 2. Redirigir según el rol. Usamos la cadena literal "admin"
             if (user.rol === "admin") {
-                // Ruta para el administrador
                 navigateTo("/pages/admin/home.html"); 
             } else {
-                // Ruta para el cliente (usuario estándar)
                 navigateTo("/pages/client/home.html");
             }
-
         } catch (error) {
             errorMessageElement.textContent = (error as Error).message;
         }

@@ -1,8 +1,4 @@
-// /src/service/api.ts
-
 import type { IUser, IRegister, ILogin } from "../types/IUser";
-
-// Define la URL base de tu backend
 const API_BASE_URL = "http://localhost:8080/usuario"; 
 
 /**
@@ -12,9 +8,7 @@ const API_BASE_URL = "http://localhost:8080/usuario";
  */
 async function handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
-        // Si hay un error, intentamos leer el cuerpo del error
         const errorBody = await response.text();
-        // Lanzamos una excepción con el mensaje de error del backend
         throw new Error(errorBody || `Error HTTP: ${response.status}`);
     }
     return response.json();
@@ -43,7 +37,6 @@ export async function registerUser(data: IRegister): Promise<IUser> {
  * @returns El objeto IUser del usuario autenticado.
  */
 export async function loginUser(data: ILogin): Promise<IUser> {
-    // Usamos POST y Body, como acordamos. El endpoint es /usuario/login
     const response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         headers: {
