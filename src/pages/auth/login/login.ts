@@ -26,10 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const user = await loginUser(payload);
             saveUser(user);
+            
+            // 2 & 3. Verificación de roles y rutas corregidas
             if (user.rol === "admin") {
-                navigateTo("/pages/admin/home.html"); 
+                navigateTo("/pages/admin/home/home.html"); 
+            } else if (user.rol === "cliente") { // Usar "cliente" para mayor precisión
+                navigateTo("/pages/client/home/home.html");
             } else {
-                navigateTo("/pages/client/home.html");
+                errorMessageElement.textContent = "Rol de usuario desconocido. Contacte a soporte.";
             }
         } catch (error) {
             errorMessageElement.textContent = (error as Error).message;

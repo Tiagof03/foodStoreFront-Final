@@ -1,7 +1,8 @@
 import { navigateTo } from "./navigate";
-import { loadUser, removeUser } from "./localStorage"; 
+import { loadUser, removeUser, saveUser } from "./localStorage"; 
 import type { Rol } from "../types/Rol"; 
-
+import type { IRegister } from "../types/IUser";
+import { registerUser } from "../service/api";
 export const logout = () => {
     removeUser(); 
     navigateTo("/src/pages/auth/login/login.html");
@@ -13,7 +14,18 @@ export const logout = () => {
  * @param forbiddenRoute Ruta a donde redirigir si el rol NO es el requerido (e.g., cliente intenta acceder a admin).
  * @param requiredRole Rol necesario para ver la página.
  */
-export const checkAuhtUser = (
+
+export const registerAndSaveSession = async (payload: IRegister) => {
+    try {
+        const user = await registerUser(payload);
+        saveUser(user);
+        return user;
+    } catch (error) {
+        // Relanza el error para que registro.ts lo pueda manejar
+        throw error; 
+    }
+};
+export const checkAuthUser = (
     loginRoute: string,
     forbiddenRoute: string,
     requiredRole: Rol
