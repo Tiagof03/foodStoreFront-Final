@@ -1,7 +1,8 @@
-/**
- * Redirige a la ruta especificada usando window.location.href.
- * @param route La ruta a la que se desea navegar (ej: "/pages/client/home.html").
- */
-export const navigateTo = (route: string) => {
-    window.location.href = route;
+export const navigateTo = (path: string) => {
+    // Inicia la redirección para el navegador
+    window.location.replace(path); 
+    
+    // DETIENE EL SCRIPT INMEDIATAMENTE.
+    // Esto es CRÍTICO para romper el bucle infinito.
+    throw new Error('Navegación completa: deteniendo script');
 };

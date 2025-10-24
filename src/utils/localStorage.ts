@@ -27,10 +27,6 @@ export function loadUser(): IUser | null {
         return null;
     }
 }
-
-/**
- * Elimina el objeto de usuario del localStorage (para el logout).
- */
 export function removeUser(): void {
     try {
         localStorage.removeItem(USER_STORAGE_KEY);

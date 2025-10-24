@@ -25,19 +25,23 @@ export const registerAndSaveSession = async (payload: IRegister) => {
         throw error; 
     }
 };
-export const checkAuthUser = (
-    loginRoute: string,
-    forbiddenRoute: string,
+export const checkAuhtUser = (
+    loginPath: string,
+    forbiddenPath: string,
     requiredRole: Rol
 ) => {
     const user = loadUser(); 
-    if (!user) {
-        navigateTo(loginRoute);
-        return;
+
+    // VERIFICACIÓN 1: El objeto usuario NO existe, o NO tiene la propiedad 'rol'.
+    // Si falta 'rol', el usuario no está autenticado correctamente.
+    if (!user || !user.rol) { 
+        return navigateTo(loginPath); // Redirige al login.
     }
-    if (user.rol !== requiredRole) {
-        navigateTo(forbiddenRoute);
-        return;
+    
+    // VERIFICACIÓN 2: El rol existe pero es incorrecto (sensibilidad a mayúsculas/minúsculas)
+    if (user.rol.toLowerCase() !== requiredRole.toLowerCase()) {
+        return navigateTo(forbiddenPath); // Redirige a la página prohibida (ej: home del cliente si es admin).
     }
-    console.log(`✅ Acceso concedido. Rol: ${user.rol}`);
+    
+    // Si llega aquí, todo es correcto, y la página carga.
 };

@@ -26,10 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const payload: IRegister = { nombre, apellido, email, contrasena };
 
         try {
-            const user = await registerUser(payload);
+            const user = await registerUser(payload); // O usar registerAndSaveSession si lo importaste
             saveUser(user);
-            navigateTo("/pages/client/home/home.html"); 
-            
+            navigateTo("/src/pages/auth/login/login.html");
         } catch (error) {
             errorMessageElement.textContent = (error as Error).message;
         }

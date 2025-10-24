@@ -25,15 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const user = await loginUser(payload);
-             saveUser(user);
-            
-            if (user.rol === "ADMIN") {
-                navigateTo("/pages/admin/home/home.html"); 
-            } else if (user.rol === "USUARIO") { // Asegúrate de usar "cliente"
-                navigateTo("/pages/client/home/home.html");
-            } else {
-                // Esto causa el mensaje de error que viste
-                errorMessageElement.textContent = "Rol de usuario desconocido. Contacte a soporte.";
+            const userRole = user.rol.toUpperCase();
+            saveUser(user);
+            if (userRole === "ADMIN") {
+                navigateTo("/pages/admin/home/home.html"); 
+            } else if (userRole === "USUARIO") { 
+                navigateTo("/pages/client/home/home.html"); 
+            } else {
+                errorMessageElement.textContent = "Rol de usuario desconocido.";
             }
         } catch (error) {
             errorMessageElement.textContent = (error as Error).message;

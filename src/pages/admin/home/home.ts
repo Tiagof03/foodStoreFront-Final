@@ -1,4 +1,4 @@
-import { checkAuthUser, logout } from "../../../utils/auth";
+import { checkAuhtUser, logout } from "../../../utils/auth";
 
 const buttonLogout = document.getElementById("logoutButton") as HTMLButtonElement;
 buttonLogout?.addEventListener("click", () => {
@@ -8,7 +8,7 @@ buttonLogout?.addEventListener("click", () => {
 
 const initPage = () => {
   console.log("inicio de pagina");
-  checkAuthUser(
+  checkAuhtUser(
     "/src/pages/auth/login/login.html",
     "/src/pages/client/home/home.html",
     "ADMIN"
