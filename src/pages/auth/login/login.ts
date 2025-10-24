@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const userRole = user.rol.toUpperCase();
             saveUser(user);
             if (userRole === "ADMIN") {
-                navigateTo("/pages/admin/home/home.html"); 
+                navigateTo("/src/pages/admin/home/home.html"); 
             } else if (userRole === "USUARIO") { 
-                navigateTo("/pages/client/home/home.html"); 
+                navigateTo("/src/pages/client/home/home.html"); 
             } else {
                 errorMessageElement.textContent = "Rol de usuario desconocido.";
             }
