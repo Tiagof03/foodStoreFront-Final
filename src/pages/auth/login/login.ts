@@ -25,14 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const user = await loginUser(payload);
-            saveUser(user);
-            
-            // 2 & 3. Verificación de roles y rutas corregidas
-            if (user.rol === "admin") {
-                navigateTo("/pages/admin/home/home.html"); 
-            } else if (user.rol === "cliente") { // Usar "cliente" para mayor precisión
-                navigateTo("/pages/client/home/home.html");
-            } else {
+             saveUser(user);
+            
+            if (user.rol === "ADMIN") {
+                navigateTo("/pages/admin/home/home.html"); 
+            } else if (user.rol === "USUARIO") { // Asegúrate de usar "cliente"
+                navigateTo("/pages/client/home/home.html");
+            } else {
+                // Esto causa el mensaje de error que viste
                 errorMessageElement.textContent = "Rol de usuario desconocido. Contacte a soporte.";
             }
         } catch (error) {
