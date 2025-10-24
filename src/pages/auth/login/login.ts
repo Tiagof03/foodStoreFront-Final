@@ -1,5 +1,3 @@
-// /src/pages/auth/login/login.ts (MODIFICADO)
-
 import { loginUser } from "../../../service/api";
 import { saveUser } from "../../../utils/localStorage";
 import { navigateTo } from "../../../utils/navigate";

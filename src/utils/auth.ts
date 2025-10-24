@@ -1,33 +1,31 @@
-import type { IUserLogin, IUserRegistro, IUserResponse } from "../types/IUser"; 
-import { navigate } from "./navigate";
-import { loginUser, createUser } from "../service/api";
+import { navigateTo } from "./navigate";
+import { loadUser, removeUser } from "./localStorage"; 
+import type { Rol } from "../types/Rol"; 
 
-
-export const registerAndSaveSession = async (userData: IUserRegistro) => { 
-    try {
-        const data: IUserResponse = await createUser(userData); 
-        console.log('✅ Usuario registrado y sesión guardada:', data);
-        localStorage.setItem('userData', JSON.stringify(data)); 
-        return data; 
-    } catch (err) {
-        console.error('❌ Error al registrar usuario:', err);
-        throw err; 
-    }
+export const logout = () => {
+    removeUser(); 
+    navigateTo("/src/pages/auth/login/login.html");
 };
 
-export const loginAndSaveSession = async (userData: IUserLogin) => { // 👈 Renombrado y async
-    try {
-        const data: IUserResponse = await loginUser(userData);
-        console.log('✅ Inicio de sesión exitoso:', data);
-        localStorage.setItem('userData', JSON.stringify(data)); 
-        return data;
-    } catch (err) {
-        console.error('❌ Error al iniciar sesión:', err);
-        throw err;
+/**
+ * Verifica si el usuario tiene sesión y el rol correcto para acceder a una página.
+ * @param loginRoute Ruta a donde redirigir si NO hay sesión.
+ * @param forbiddenRoute Ruta a donde redirigir si el rol NO es el requerido (e.g., cliente intenta acceder a admin).
+ * @param requiredRole Rol necesario para ver la página.
+ */
+export const checkAuhtUser = (
+    loginRoute: string,
+    forbiddenRoute: string,
+    requiredRole: Rol
+) => {
+    const user = loadUser(); 
+    if (!user) {
+        navigateTo(loginRoute);
+        return;
     }
-};
-
-export const logoutUser = () => {
-    localStorage.removeItem("userData");
-    navigate("/src/pages/auth/login/login.html");
+    if (user.rol !== requiredRole) {
+        navigateTo(forbiddenRoute);
+        return;
+    }
+    console.log(`✅ Acceso concedido. Rol: ${user.rol}`);
 };

@@ -12,17 +12,17 @@
     <section class="card">
         <h1 class="title"> SuperFood</h1>
         <h2 class="subtitle">Registro</h2>
-        <form class="form">
+        <form id="registro-form" class="form">
             <div>
                 <label for="name">Nombre</label>
                 <br></br>
-                <input type="text" id="name" name="name" autocomplete="off" placeholder="Tu nombre">
+                <input type="text" id="nombre" name="name" autocomplete="off" placeholder="Tu nombre">
             </div>
             <br>
             <div>
                 <label for="lastname">Apellido</label>
                 <br></br>
-                <input type="text" id="lastname" name="lastname" autocomplete="off" placeholder="Tu Apellido">
+                <input type="text" id="apellido" name="lastname" autocomplete="off" placeholder="Tu Apellido">
             </div>
             <br>
             <div>
@@ -34,9 +34,10 @@
             <div>
                 <label for="password">Contraseña</label>
                 <br></br>
-                <input type="password" id="password" name="password" autocomplete="off" placeholder="Minimo 8 caracteres y un numero">
+                <input type="password" id="contrasena" name="contrasena" autocomplete="off" placeholder="Minimo 8 caracteres y un numero">
             </div>
             <br>
+            <p id="error-message" style="color: red; margin-top: 10px;"></p>
             <button type="submit" class="btn--log--reg">Registrar</button>
         </form>
         <p class="form-link">
