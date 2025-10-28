@@ -1,18 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../style.css">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración</title>
+  <link rel="stylesheet" href="../../../style.css">
 </head>
+<body id="body--home-admin">
 
-<body>
-    <h1>Hola desde la vista de admin</h1>
-    <button id="logoutButton">Logout</button>
-    <script type="module" src="./home.ts"></script>
+  <header id="header--home--admin">
+    <div class="logo-foodstore">
+      <span class="icono-pizza">🍕</span> Food Store
+    </div>
+    <nav>
+      <ul class="menu-superior">
+        <li><a href="#">Tienda</a></li>
+        <li><a href="#">Panel Admin</a></li>
+        <li><a href="#">Juan Pérez</a></li>
+        <li><button class="boton-sesion">Cerrar Sesión</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="contenedor">
+    <aside class="menu-lateral">
+      <h2>Administración</h2>
+      <p class="subtitulo">Panel de control</p>
+      <ul>
+        <li><span class="icon">📊</span> Dashboard</li>
+        <li class="activo"><span class="icon">📁</span> Categorías</li>
+        <li><span class="icon">🍔</span> Productos</li>
+        <li><span class="icon">📦</span> Pedidos</li>
+
+        <hr class="separador-menu" />
+
+        <li class="ver-tienda"><span class="icon">🗓</span> Ver Tienda</li>
+      </ul>
+    </aside>
+
+    <main class="panel-principal">
+      <h1>Panel de Administración</h1>
+
+      <div class="tarjetas">
+        <div class="tarjeta categorias">
+          <h3><span class="icono">📁</span> Categorías</h3>
+          <p class="cantidad">0</p>
+          <button>Gestionar</button>
+        </div>
+        <div class="tarjeta productos">
+          <h3><span class="icono">🍔</span> Productos</h3>
+          <p class="cantidad">0</p>
+          <button>Gestionar</button>
+        </div>
+        <div class="tarjeta pedidos">
+          <h3><span class="icono">📦</span> Pedidos</h3>
+          <p class="cantidad">0</p>
+          <button>Gestionar</button>
+        </div>
+        <div class="tarjeta disponibles">
+          <h3><span class="icono">✅</span> Disponibles</h3>
+          <p class="cantidad">0</p>
+          <p class="info">Productos activos</p>
+        </div>
+      </div>
+
+      <section class="resumen">
+        <h2><span class="icono">📊</span> Resumen Rápido</h2>
+        <p>Cargando estadísticas...</p>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="./home.ts"></script>
 </body>
-
-
 </html>
