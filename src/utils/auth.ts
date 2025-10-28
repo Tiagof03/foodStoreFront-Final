@@ -21,7 +21,6 @@ export const registerAndSaveSession = async (payload: IRegister) => {
         saveUser(user);
         return user;
     } catch (error) {
-        // Relanza el error para que registro.ts lo pueda manejar
         throw error; 
     }
 };
@@ -37,11 +36,8 @@ export const checkAuhtUser = (
     if (!user || !user.rol) { 
         return navigateTo(loginPath); // Redirige al login.
     }
-    
     // VERIFICACIÓN 2: El rol existe pero es incorrecto (sensibilidad a mayúsculas/minúsculas)
     if (user.rol.toLowerCase() !== requiredRole.toLowerCase()) {
-        return navigateTo(forbiddenPath); // Redirige a la página prohibida (ej: home del cliente si es admin).
+        return navigateTo(forbiddenPath); 
     }
-    
-    // Si llega aquí, todo es correcto, y la página carga.
 };
