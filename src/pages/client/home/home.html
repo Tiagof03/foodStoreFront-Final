@@ -4,13 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cliente</title>
+    <link rel="stylesheet" href="../../../style.css">
 </head>
 
-<body>
-    <h1>Hola desde el cliente</h1>
-    <button id="logoutButton">Logout</button>
-    <script type="module" src="./home.ts"></script>
+<body class="body--home-cliente">
+<header class="header--home--admin">
+    <div class="logo-foodstore">
+    <span class="icono-pizza">🍕</span>
+    <span>FoodStore</span>
+
+    </div>
+    <ul class="menu-superior">
+    <li><a href="#">Carrito 🛒</a></li>
+    <li><a href="#">Perfil 👤</a></li>
+    <li><button class="boton-sesion">Cerrar sesión</button></li>
+    </ul>
+
+</header>
+
+<div class="contenedor">
+    <aside class="menu-lateral">
+    <h2>Categorías</h2>
+    <ul>
+        <li>🍔 Hamburguesas</li>
+        <li>🍕 Pizzas</li>
+        <li>🥤 Bebidas</li>
+        <li>🍟 Snacks</li>
+    </ul>
+    </aside>
+
+    <main class="panel-principal">
+    <h2>Catálogo de productos</h2>
+    <div class="product-grid">
+        <div class="tarjeta-producto">
+        <img src="/img/pizza.jpg" alt="Pizza napolitana">
+        <h4>Pizza Napolitana</h4>
+        <p>Tomate, mozzarella y albahaca fresca.</p>
+        <span class="price">$2500</span>
+        <div class="badge disponible">Disponible</div>
+        </div>
+
+        <div class="tarjeta-producto">
+        <img src="/img/burger.jpg" alt="Hamburguesa">
+        <h4>Hamburguesa Clásica</h4>
+        <p>Carne 100%, queso cheddar y panceta.</p>
+        <span class="price">$2800</span>
+        <div class="badge no-disponible">No disponible</div>
+        </div>
+    </div>
+    </main>
+</div>
 </body>
 
 </html>
