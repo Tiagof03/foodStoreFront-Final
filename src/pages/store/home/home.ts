@@ -13,4 +13,4 @@ const initPage = () => {
         "USUARIO", 
     );
 };
-initPage();
+initPage(); 
