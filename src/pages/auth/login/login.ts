@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (userRole === "ADMIN") {
                 navigateTo("/src/pages/admin/home/home.html"); 
             } else if (userRole === "USUARIO") { 
-                navigateTo("/src/pages/client/home/home.html"); 
+                navigateTo("/src/pages/store/home/home.html"); 
             } else {
                 errorMessageElement.textContent = "Rol de usuario desconocido.";
             }
