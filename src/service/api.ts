@@ -136,10 +136,10 @@ export async function deleteCategory(name: string): Promise<string> {
  * NOTA: Debes verificar o crear este endpoint en tu backend.
  * @returns Un array de objetos IProduct.
  */
-export async function getAllProducts(): Promise<IProduct[]> {
+export async function getAllProducts(): Promise<IProducto[]> {
     // Asumiendo un endpoint simple para obtener todos los productos
     const response = await fetch(`${API_BASE_URL_PRODUCTO}/traertodos`); 
-    return handleResponse<IProduct[]>(response);
+    return handleResponse<IProducto[]>(response);
 }
 
 /**
@@ -148,13 +148,13 @@ export async function getAllProducts(): Promise<IProduct[]> {
  * @param data Los datos del nuevo producto.
  * @returns El objeto IProduct creado.
  */
-export async function createProduct(data: IProductDto): Promise<IProduct> {
+export async function createProduct(data: IProductoReturn): Promise<IProducto> {
     const response = await fetch(`${API_BASE_URL_PRODUCTO}/guardar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
     });
-    return handleResponse<IProduct>(response);
+    return handleResponse<IProducto>(response);
 }
 
 /**
