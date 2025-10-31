@@ -9,9 +9,8 @@
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
-  --space-lg: 24px;       /* Ajustado para más compacticidad */
+  --space-lg: 24px;      
   --space-xl: 32px;
-
   /* Para cálculos de opacidad CSS */
   --primary-rgb: 255, 87, 34; 
 }
@@ -83,23 +82,23 @@ input, select {
 .body--home-admin {
   margin: 0;
   font-family: sans-serif;
-  background-color: #f4f4f4;
+  background-color: var(--light);
 }
 
 .header--home--admin {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--light);
   padding: 10px 0px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid  var(--light-bg);
   font-weight: 550;
 }
 
 .logo-foodstore {
   font-size: 20px;
   font-weight: bold;
-  color: orangered;
+  color: var(--primary);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -127,7 +126,7 @@ input, select {
 }
 
 .menu-superior a {
-  color: black;
+  color: var(--dark);
   text-decoration: none;
   font-size: 14px;
 }
@@ -386,7 +385,7 @@ input, select {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 5px;
-  color: white;
+  color: var(--light);
   font-size: 0.8rem;
 }
 
@@ -558,14 +557,14 @@ input, select {
     border: none;
     cursor: pointer;
     font-size: 1.2rem;
-    color: #666;
+    color: var(--gray-dark);
 }
 .cart-badge {
     position: absolute;
     top: -8px;
     right: -8px;
-    background-color: #ff6b6b;
-    color: white;
+    background-color: var(--danger);
+    color: var(--light);
     border-radius: 50%;
     width: 18px;
     height: 18px;
@@ -575,13 +574,13 @@ input, select {
     justify-content: center;
 }
 .user-name {
-    color: #666;
+    color: var(--dark);
     font-size: 0.9rem;
 }
 .close-session-btn {
     padding: 0.5rem 1rem;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
+    background-color: var(--light-bg);
+    border: 1px solid var(--gray-light);
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9rem;
@@ -595,7 +594,7 @@ input, select {
     margin: 2rem auto 1rem;
     padding: 0 2rem;
     font-size: 1.8rem;
-    color: #333;
+    color: var(--dark);
 }
 .product-container {
     max-width: 1300px;
@@ -631,13 +630,13 @@ input, select {
 }
 .product-price {
     font-size: 1.5rem;
-    color: #ff6b6b;
+    color: var(--danger);
     font-weight: 700;
 }
 .discount-badge {
     display: inline-block;
-    background-color: #00d4aa;
-    color: white;
+    background-color: var(--success);
+    color: var(--light);
     width: fit-content;
     padding: 0.4rem 1rem;
     border-radius: 20px;
@@ -645,7 +644,7 @@ input, select {
     font-weight: 600;
 }
 .product-description {
-    color: #666;
+    color: var(--gray-dark);
     font-size: 0.95rem;
     line-height: 1.6;
 }
@@ -666,8 +665,8 @@ input, select {
 .qty-btn {
     width: 35px;
     height: 35px;
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
+    border: 1px solid var(--gray-light);
+    background-color: var(--light);
     border-radius: 4px;
     cursor: pointer;
     font-size: 1.2rem;
@@ -677,13 +676,13 @@ input, select {
     transition: background-color 0.3s;
 }
 .qty-btn:hover {
-    background-color: #e8e8e8;
+    background-color: var(--gray-light);
 }
 .qty-input {
     width: 60px;
     height: 35px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid var(--gray-light);
     border-radius: 4px;
     font-size: 1rem;
 }
