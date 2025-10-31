@@ -1,5 +1,5 @@
 import type { IUser, IRegister, ILogin } from "../types/IUser";
-import type { ICategoria, ICategoriaCreate } from "../types/ICategoria";
+import type { ICategoria, ICategoriaReturn } from "../types/ICategoria";
 import type { IProduct, IProductDto } from "../types/IProducto";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/usuario";
 const API_BASE_URL_CATEGORIA = import.meta.env.VITE_API_URL_CATEGORIA || "http://localhost:8080/categoria";
@@ -73,7 +73,7 @@ export async function getAllCategories(): Promise<ICategoria[]> {
  * @param data Los datos de la nueva categoría (nombre, descripcion, urlImagen).
  * @returns El objeto ICategoria creado.
  */
-export async function createCategory(data: ICategoriaCreate): Promise<ICategoria> {
+export async function createCategory(data: ICategoriaReturn): Promise<ICategoria> {
     const response = await fetch(`${API_BASE_URL_CATEGORIA}/guardar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
