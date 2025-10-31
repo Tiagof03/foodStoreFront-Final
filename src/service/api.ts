@@ -1,6 +1,6 @@
 import type { IUser, IRegister, ILogin } from "../types/IUser";
 import type { ICategoria, ICategoriaReturn } from "../types/ICategoria";
-import type { IProduct, IProductDto } from "../types/IProducto";
+import type { IProducto, IProductoReturn } from "../types/IProducto";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/usuario";
 const API_BASE_URL_CATEGORIA = import.meta.env.VITE_API_URL_CATEGORIA || "http://localhost:8080/categoria";
 const API_BASE_URL_PRODUCTO = import.meta.env.VITE_API_URL_PRODUCTO || "http://localhost:8080/producto";
