@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías | Admin</title>
+    <link rel="stylesheet" href="../../admin/home/stylesAdmin.css">
+</head>
+<body>
+    <header id="header--home--admin">
+        <nav class="navbar">
+            <div class="logo-foodstore">
+                <span class="icono-pizza">🍕</span>
+                <h1>FoodStore</h1>
+            </div>
+            <div class="navbar-right">
+                <a href="../home/home.html" class="nav-btn pAd">Panel de Administracion</a>
+                <a href="../categorias/categorias.html" class="nav-btn cat">Categorías</a>
+                <a href="../productos/productos.html" class="nav-btn pro">Productos</a>
+                <button id="button_logout" class="btn-logout">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="../pedidos/pedidos.html">Pedidos</a></li>
+                <li><a href="../categorias/categorias.html" class="active">Categorías</a></li>
+                <li><a href="../productos/productos.html">Productos</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <h2>Gestión de Categorías</h2>
+            <p>Aquí podés ver, editar o eliminar categorías.</p>
+            
+            <button id="btnAbrirFormulario" class="btnAbrirFormCat">+ Nueva Categoría</button>
+            
+            <table id="tablaCategorias">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <div id="fondoModal" class="overlay">
+        <form id="categoriaForm" class="modal">
+            <span id="btnCerrarFormulario" class="cerrar">&times;</span>
+            
+            <h2 id="modal-title">Nueva Categoría</h2> 
+            
+            <input type="hidden" id="category-id">
+            
+            <input type="hidden" id="original-name"> 
+
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" class="box" name="nombre" type="text" placeholder="Ingrese el nombre" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" class="box" name="descripcion" placeholder="Ingrese la descripción" required></textarea>
+            </div>            
+            <button type="submit" class="guardarCBtn btnAbrirFormCat">Guardar</button>
+        </form>
+    </div>
+    <script type="module" src="/src/pages/admin/categorias/categorias.ts"></script>
+</body>
+</html>

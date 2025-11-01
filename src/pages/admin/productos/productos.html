@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos | Admin</title>
+    <link rel="stylesheet" href="../../admin/home/stylesAdmin.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo-foodstore">
+                <span class="icono-pizza">🍕</span>
+                <h1>FoodStore</h1>
+            </div>
+            <div class="navbar-right">
+                <a href="../home/home.html" class="nav-btn pAd">Panel de Administracion</a>
+                <a href="../categorias/categorias.html" class="nav-btn cat">Categorías</a>
+                <a href="../productos/productos.html" class="nav-btn pro">Productos</a>
+                <button id="button_logout" class="btn-logout">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="../pedidos/pedidos.html">Pedidos</a></li>
+                <li><a href="../categorias/categorias.html">Categorías</a></li>
+                <li><a href="../productos/productos.html" class="active">Productos</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <h2 class="admin-title" id="main-title">Gestión de Productos</h2>
+            <p>Aquí podés ver, editar o eliminar productos.</p>
+
+            <button id="btnAbrirFormulario" class="btnAbrirFormProd">+ Nuevo Producto</button>
+
+            <table id="tablaProductos">
+                <thead>
+                    <tr>
+                        <th>ID</th> 
+                        <th>Imagen</th> 
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Categoría</th>
+                        <th>Stock</th> 
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </main>
+    </div>
+
+    <div id="fondoModal" class="overlay">
+        <form id="productForm" class="modal"> 
+            <span id="btnCerrarFormulario" class="cerrar">&times;</span>
+            <h2 id="modal-title">Crear Nuevo Producto</h2> 
+            <input type="hidden" id="product-id">
+            
+            <input type="hidden" id="original-name"> 
+
+            <div class="campo-formulario">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" class="box" name="nombre" type="text" placeholder="Ingrese el nombre" required>
+            </div>
+
+            <div class="campo-formulario">
+                <label for="precio">Precio</label>
+                <input type="number" class="box" name="Precio" id="precio" step="0.01" placeholder="50000" required>
+            </div>
+            <div class="campo-formulario">
+                <label for="stock">Stock</label>
+                <input type="number" class="box" name="stock" id="stock" step="1" placeholder="10" required>
+            </div>
+            <div class="campo-formulario">
+                <label for="imagenUrl">URL de Imagen (src)</label>
+                <input id="imagenUrl" class="box" name="imagenUrl" type="url" placeholder="https://ejemplo.com/imagen.jpg" required>
+            </div>
+
+            <div class="campo-formulario">
+                <label for="categoriaSelect">Categoría</label>
+                <select id="categoriaSelect" class="box" name="categoriaSelect" required>
+                    <option value="">Cargando Categorías...</option>
+                </select>
+            </div>
+            <button type="submit" class="guardarCBtn btnAbrirFormProd">Guardar</button>
+        </form>
+    </div>
+
+    <script type="module" src="/src/pages/admin/productos/producto.ts"></script>
+</body>
+</html>

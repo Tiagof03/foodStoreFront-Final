@@ -1,0 +1,331 @@
+:root { 
+    --primary: #ff6b35; /* Naranja principal */
+    --secondary: #f7931e; /* Naranja secundario */
+    --dark: #2d3436; /* Texto oscuro */
+    --light: #f5f6fa; /* Fondo claro */
+    --white: #ffffff; /* Blanco puro */
+    --success: #00b894; /* Verde éxito */
+    --danger: #d63031; /* Rojo peligro */
+    --table-header: #f86754; /* Rojo/Naranja de la cabecera de la tabla en la imagen de ref. */
+    --gray: #dfe6e9; /* Gris borders */
+    --gray-light: #f1f2f6; /* Gris muy claro */
+    --gray-medium: #b2bec3; /* Gris medio */
+    --gray-dark: #636e72; /* Gris oscuro */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;       
+    --space-xl: 32px;
+    --primary-rgb: 255, 107, 53; 
+}
+
+/* ... (Mantener estilos de .id--body, .card, .title, .subtitle, .btn--log--reg, etc.) ... */
+
+/* --- Estilos de Navegación (Header y Sidebar) --- */
+
+header {
+    background-color: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.logo-foodstore {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo-foodstore h1 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin: 0;
+}
+.icono-pizza {
+    font-size: 1.8rem;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-btn {
+    text-decoration: none;
+    color: var(--dark);
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+.nav-btn:hover {
+    background-color: var(--gray-light);
+}
+
+.btn-logout {
+    padding: 8px 15px;
+    background-color: var(--danger);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.btn-logout:hover {
+    background-color: #a02020;
+}
+
+.container {
+    display: flex;
+    max-width: 1300px;
+    margin: 20px auto;
+    gap: 30px;
+}
+
+.sidebar {
+    width: 200px; 
+    background-color: var(--white);
+    padding: var(--space-lg) var(--space-md);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li a {
+    display: block;
+    text-decoration: none;
+    color: var(--dark);
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar li a:hover {
+    background-color: var(--gray-light);
+    color: var(--primary);
+}
+
+.sidebar li a.active {
+    background-color: var(--primary);
+    color: var(--white);
+    font-weight: bold;
+}
+.sidebar li a.active:hover {
+     background-color: var(--primary);
+}
+
+main {
+    flex: 1; 
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Título de la página de administración */
+main h2 {
+    color: var(--dark); /* Se ve más oscuro en la imagen de ref */
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+main p {
+    color: var(--gray-dark);
+    margin-bottom: 20px;
+}
+
+/* Botón Nuevo Elemento (Verde en la imagen de ref.) */
+.btnAbrirFormCat, .btnAbrirFormProd {
+    padding: 10px 20px;
+    background-color: var(--success);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.2s;
+    /* Estilo adicional para que el texto sea más grueso como en la imagen */
+    font-weight: bold; 
+    text-transform: uppercase;
+}
+.btnAbrirFormCat:hover, .btnAbrirFormProd:hover {
+    background-color: #008f70;
+}
+
+/* --- Estilos de Tablas: Ajuste para el color de cabecera de la imagen de ref. --- */
+
+#tablaCategorias, #tablaProductos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.95em;
+    /* Agrega un borde redondeado a la tabla */
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que la cabecera se vea redondeada */
+}
+
+/* Cabecera de la tabla (Color Rojo/Naranja de la imagen de ref.) */
+#tablaCategorias thead, #tablaProductos thead {
+    background-color: var(--table-header); 
+}
+
+#tablaCategorias th, #tablaProductos th {
+    color: var(--white); /* Texto blanco para la cabecera */
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    /* Remueve el border-bottom para usar el color de fondo */
+    border-bottom: none; 
+}
+
+#tablaCategorias td, #tablaProductos td {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--gray);
+    vertical-align: middle;
+}
+
+#tablaCategorias tr:last-child td, #tablaProductos tr:last-child td {
+    border-bottom: none; /* Eliminar el borde de la última fila */
+}
+
+#tablaCategorias tbody tr:hover, #tablaProductos tbody tr:hover {
+    background-color: var(--gray-light);
+}
+
+/* Imagen en la tabla de productos/categorías */
+.table-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Estilos de botones de acción en tabla */
+.editarbtn, .eliminarbtn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+.editarbtn {
+    background-color: #007bff; /* Azul */
+    color: var(--white);
+}
+.eliminarbtn {
+    background-color: var(--danger);
+    color: var(--white);
+}
+
+.editarbtn:hover, .eliminarbtn:hover {
+    opacity: 0.8;
+}
+
+/* --- Estilos del Modal (Overlay y Formulario) --- */
+/* --- Estilos del Modal (Overlay y Formulario) --- */
+
+.overlay {
+    /* Mantenemos display: none; como el valor final por defecto */
+    display: none; 
+    
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* ❌ LA LÍNEA 'display: flex;' SE HA ELIMINADO DE AQUÍ */
+    justify-content: center;
+    align-items: center;
+}
+/* El resto de los estilos del modal se mantienen igual */
+.modal {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ... (otros estilos de .cerrar, .form-group, etc.) ... */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal h2 {
+    color: var(--dark);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    padding-right: 30px; 
+}
+
+.cerrar {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: var(--gray-dark);
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.cerrar:hover, .cerrar:focus {
+    color: var(--danger);
+}
+
+.form-group, .campo-formulario {
+    margin-bottom: 15px;
+}
+
+.form-group label, .campo-formulario label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--gray-dark);
+}
+
+/* Input, select, textarea se definieron al inicio y se mantienen uniformes */
+/* input, select, textarea { ... } */
+
+.guardarCBtn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary); /* Color de botón de guardar como en la imagen de ref. */
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+.guardarCBtn:hover {
+    background-color: var(--secondary);
+}

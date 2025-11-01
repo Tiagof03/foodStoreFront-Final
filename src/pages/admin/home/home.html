@@ -5,21 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel de Administración</title>
   <link rel="stylesheet" href="../../../style.css">
+  <link rel="stylesheet" href="../../admin/home/stylesAdmin.css" />
 </head>
 <body id="body--home-admin">
 
   <header id="header--home--admin">
-      <span class="icono-pizza">🍕</span> Food Store
-    </div>
-    <nav>
-      <ul class="menu-superior">
-        <li><a href="#">Tienda</a></li>
-        <li><a href="#">Panel Admin</a></li>
-        <li><a href="#">Nombre admin</a></li>
-        <li><button class="boton-sesion">Cerrar Sesión</button></li>
-      </ul>
-    </nav>
-  </header>
+        <nav id="navbar--admin" class="navbar">
+            <div id="logo-foodstore">
+                <span class="icono-pizza"></span>
+                <h1>🍕 FoodStore</h1>
+            </div>
+            <div class="navbar-right">
+                <a href="../pedidos/pedidos.html" class="nav-btn pAd">Pedidos</a>
+                <a href="../categorias/categorias.html" class="nav-btn cat">Categorías</a>
+                <a href="../productos/productos.html" class="nav-btn pro">Productos</a>
+                <button id="button_logout" class="btn-logout">Logout</button>
+            </div>
+        </nav>
+    </header>
 
   <div class="contenedor">
     <aside class="menu-lateral">
@@ -43,18 +46,18 @@
       <div class="tarjetas">
         <div class="tarjeta categorias">
           <h3><span class="icono">📁</span> Categorías</h3>
-          <p class="cantidad">0</p>
-          <button>Gestionar</button>
+          <p class="cantidad">4</p>
+          <a href="../categorias/categorias.html" class="nav-btn cat">Categorías</a>
         </div>
         <div class="tarjeta productos">
           <h3><span class="icono">🍔</span> Productos</h3>
-          <p class="cantidad">0</p>
-          <button>Gestionar</button>
+          <p class="cantidad">4</p>
+          <a href="../productos/productos.html" class="nav-btn pro">Productos</a>
         </div>
         <div class="tarjeta pedidos">
           <h3><span class="icono">📦</span> Pedidos</h3>
           <p class="cantidad">0</p>
-          <button>Gestionar</button>
+          <a href="../pedidos/pedidos.html" class="nav-btn pAd">Pedidos</a>
         </div>
         <div class="tarjeta disponibles">
           <h3><span class="icono">✅</span> Disponibles</h3>
