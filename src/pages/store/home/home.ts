@@ -6,7 +6,6 @@ buttonLogout?.addEventListener("click", () => {
 });
 
 const initPage = () => {
-    // Llama directamente, ya que navigateTo no lanzará un error
     checkAuhtUser(
         "/src/pages/auth/login/login.html", 
         "/src/pages/admin/home/home.html", 

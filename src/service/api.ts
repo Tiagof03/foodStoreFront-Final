@@ -2,7 +2,6 @@ import type { IUser, IRegister, ILogin } from "../types/IUser";
 import type { ICategoria, ICategoriaReturn } from "../types/ICategoria";
 import type { IProducto, IProductoReturn } from "../types/IProducto";
 
-// Variables de entorno para las URLs
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/usuario";
 const API_BASE_URL_CATEGORIA = import.meta.env.VITE_API_URL_CATEGORIA || "http://localhost:8080/categoria";
 const API_BASE_URL_PRODUCTO = import.meta.env.VITE_API_URL_PRODUCTO || "http://localhost:8080/producto";
@@ -17,22 +16,15 @@ async function handleResponse<T>(response: Response): Promise<T> {
         return {} as T; 
     }
     if (!response.ok) {
-        // Leemos el cuerpo del error que contiene el mensaje de la excepción de Spring Boot
         const errorBody = await response.text();
         throw new Error(errorBody || `Error HTTP: ${response.status}`);
     }
-    // Si el servidor devuelve una respuesta exitosa, pero vacía (e.g. un PUT sin body)
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
         return response.json();
     }
-    // Si no es JSON (ej: devuelve solo un string de confirmación en el cuerpo)
     return response.text() as Promise<T>;
 }
-
-// ==========================================
-// USUARIOS (REGISTER / LOGIN)
-// ==========================================
 
 export async function registerUser(data: IRegister): Promise<IUser> {
     const response = await fetch(`${API_BASE_URL}/guardar`, {
@@ -53,10 +45,6 @@ export async function loginUser(data: ILogin): Promise<IUser> {
 
     return handleResponse<IUser>(response);
 }
-
-// ==========================================
-// CATEGORÍAS CRUD (AJUSTADO)
-// ==========================================
 
 export async function getAllCategories(): Promise<ICategoriaReturn[]> {
     const response = await fetch(`${API_BASE_URL_CATEGORIA}/traertodos`);
@@ -98,10 +86,6 @@ export async function deleteCategory(id: number): Promise<string> {
     return handleResponse<string>(response); 
 }
 
-// ==========================================
-// PRODUCTOS CRUD (AJUSTADO)
-// ==========================================
-
 export async function getAllProducts(): Promise<IProductoReturn[]> {
     const response = await fetch(`${API_BASE_URL_PRODUCTO}/traertodos`); 
     return handleResponse<IProductoReturn[]>(response);
@@ -123,11 +107,6 @@ export async function updateProductPrice(id: number, price: number): Promise<str
     return handleResponse<string>(response);
 }
 
-/**
- * Actualiza la categoría de un producto por su ID.
- * Endpoint Backend: PUT /producto/editarcategoria/{id}/{idCategoria}
- * El tipo categoryId se limita a 'number' para asegurar una URL limpia.
- */
 export async function updateProductCategory(id: number, categoryId: number): Promise<string> { 
     const response = await fetch(`${API_BASE_URL_PRODUCTO}/editarcategoria/${id}/${categoryId}`, {
         method: "PUT",
