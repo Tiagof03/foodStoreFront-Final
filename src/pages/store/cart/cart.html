@@ -1,11 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito</title>
+    <title>Mi Carrito</title>
+    <link rel="stylesheet" href="../../../style.css">
 </head>
-<body>
+
+<body class="body--home-cliente">
     
+    <header class="header--home--admin">
+        <div class="logo-foodstore">
+        <span class="icono-pizza">🍕</span>
+        <span>FoodStore</span>
+        </div>
+
+        <ul class="menu-superior">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Mis Pedidos</a></li>
+        <li><a href="#">Carrito 🛒</a></li>
+        <li><a href="#">Juan Pérez 👤</a></li>
+        <li><button class="boton-sesion">Cerrar sesión</button></li>
+        </ul>
+    </header>
+
+
+    <main class="carrito-container">
+        <h2 class="page-title">Mi Carrito</h2>
+
+    <div class="carrito-content">
+    <div class="carrito-items">
+        <div class="carrito-item">
+        <img src="https://demo01.menudigital.ar/wp-content/uploads/2022/06/hamburguesa-triple.jpg" alt="Hamburguesa triple" class="carrito-item-img">
+
+        <div class="carrito-item-info">
+            <h4>Hamburguesa triple</h4>
+            <p>Hamburguesa triple smash</p>
+            <span class="item-precio">$25000.00 c/u</span>
+        </div>
+
+        <div class="item-cantidad">
+            <button class="qty-btn">-</button>
+            <input type="number" min="1" value="1" class="qty-input">
+            <button class="qty-btn">+</button>
+        </div>
+
+        <span class="item-total">$25000.00</span>
+        <button class="delete-item">🗑️</button>
+        </div>
+    </div>
+
+    <div class="carrito-resumen">
+        <h3 class="resumen-title">Resumen del Pedido</h3>
+        <div class="resumen-line"><span>Subtotal:</span><span>$25000.00</span></div>
+        <div class="resumen-line"><span>Envío:</span><span>$500.00</span></div>
+        <hr>
+        <div class="resumen-total"><span>Total:</span><span>$25500.00</span></div>
+
+        <button class="btn--log--reg">Proceder al Pago</button>
+        <button class="boton-sesion vaciar">Vaciar Carrito</button>
+    </div>
+    </div>
+</main>
+
+<script type="module" src="./carrito.ts"></script>
 </body>
 </html>
