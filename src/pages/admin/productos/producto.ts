@@ -140,14 +140,14 @@ if (productForm) {
         
         try {
             if (productId) {
-                 await updateProductPrice(productId, productoData.precio);
-                 await updateProductCategory(productId, productoData.idCategoria);
-                 showMessage(`Producto ${productoData.nombre} (ID: ${productId}) actualizado con éxito.`);
-             } else {
-                 await createProduct(productoData);
-                 showMessage(`Producto ${productoData.nombre} creado con éxito.`);
-             }
-             closeModal();
+                await updateProductPrice(productId, productoData.precio);
+                await updateProductCategory(productId, productoData.idCategoria);
+                showMessage(`Producto ${productoData.nombre} (ID: ${productId}) actualizado con éxito.`);
+            } else {
+                await createProduct(productoData);
+                showMessage(`Producto ${productoData.nombre} creado con éxito.`);
+            }
+            closeModal();
         } catch (error) {
             console.error('❌ Error en el CRUD de producto:', error);
             showMessage('Ocurrió un error en la operación: ' + (error instanceof Error ? error.message : String(error)));
