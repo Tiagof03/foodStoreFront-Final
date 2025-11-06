@@ -89,9 +89,9 @@ input, select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--light);
+  background-color: white;
   padding: 10px 0px;
-  border-bottom: 1px solid  var(--light-bg);
+  border-bottom: 1px solid #ccc;
   font-weight: 550;
 }
 
@@ -118,6 +118,7 @@ input, select {
   margin: 0;
   padding: 0;
   margin-right: 30px
+  ;
 }
 
 .menu-superior li {
@@ -591,10 +592,10 @@ input, select {
 }
 .page-title {
     max-width: 1000px;
-    margin: 2rem auto 1rem;
+    margin: 30px 0 20px -30px;
     padding: 0 2rem;
     font-size: 1.8rem;
-    color: var(--dark);
+    color: black;
 }
 .product-container {
     max-width: 1300px;
@@ -666,7 +667,7 @@ input, select {
     width: 35px;
     height: 35px;
     border: 1px solid var(--gray-light);
-    background-color: var(--light);
+    background-color: orange;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1.2rem;
@@ -725,6 +726,7 @@ input, select {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
+  
 }
 
 .carrito-content {
@@ -783,19 +785,19 @@ input, select {
 .item-cantidad {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
 .qty-input {
-  width: 45px;
+  width: px;
   text-align: center;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--gray);
+  border-radius: 80;
 }
 
 .item-total {
-  color: var(--dark);
-  font-weight: 600;
+  color: orange;
+  font-weight: 1000;
 }
 
 .delete-item {
@@ -825,6 +827,8 @@ input, select {
   justify-content: space-between;
   font-size: 0.95rem;
   margin-bottom: 8px;
+  padding-bottom: 6px;           
+  border-bottom: 1px solid #eee;
 }
 
 .resumen-total {
@@ -834,7 +838,8 @@ input, select {
 
 .vaciar {
   margin-top: 10px;
-  background-color: var(--danger);
+  width: 100%;
+  background-color: red;
   color: var(--light);
   ;
 }
@@ -843,3 +848,4 @@ input, select {
   background-color: #b22222;
   
 }
+
