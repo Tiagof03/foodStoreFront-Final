@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración</title>
+  <link rel="stylesheet" href="../../../style.css">
+  <link rel="stylesheet" href="../../admin/home/stylesAdmin.css" />
+</head>
+<body id="body--home-admin">
+
+  <header id="header--home--admin">
+    <nav id="navbar--admin" class="navbar">
+      <div id="logo-foodstore">
+        <span class="icono-pizza"></span>
+        <h1>🍕 FoodStore</h1>
+      </div>
+      <div class="navbar-right">
+        <a href="../pedidos/pedidos.html" class="nav-btn pAd">Pedidos</a>
+        <a href="../categorias/categorias.html" class="nav-btn cat">Categorías</a>
+        <a href="../productos/productos.html" class="nav-btn pro">Productos</a>
+        <button id="button_logout" class="btn-logout">Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="contenedor">
+    <aside class="menu-lateral">
+      <h2>Administración</h2>
+      <p class="subtitulo">Panel de control</p>
+      <ul>
+        <li><span class="icon">📊</span> Dashboard</li>
+        <li class="activo"><span class="icon">📁</span> Categorías</li>
+        <li><span class="icon">🍔</span> Productos</li>
+        <li><span class="icon">📦</span> Pedidos</li>
+
+        <hr class="separador-menu" />
+
+        <li class="ver-tienda"><span class="icon">🗓</span> Ver Tienda</li>
+      </ul>
+    </aside>
+
+    <main class="panel-principal">
+      <h1>Gestión de Pedidos</h1>
+    </main>
+  </div>
+
+  <script type="module" src="orders.ts"></script>
+</body>
+</html>
