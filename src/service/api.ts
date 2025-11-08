@@ -32,10 +32,6 @@ async function handleResponse<T>(response: Response): Promise<T> {
     return response.text() as Promise<T>;
 }
 
-// ==========================================
-// 🔐 USUARIOS Y AUTENTICACIÓN
-// ==========================================
-
 export async function registerUser(data: IRegister): Promise<IUser> {
     const response = await fetch(`${API_BASE_URL}/guardar`, {
         method: "POST",
@@ -56,9 +52,6 @@ export async function loginUser(data: ILogin): Promise<IUser> {
     return handleResponse<IUser>(response);
 }
 
-// ==========================================
-// 🏷️ CATEGORÍAS
-// ==========================================
 
 export async function getAllCategories(): Promise<ICategoriaReturn[]> {
     const response = await fetch(`${API_BASE_URL_CATEGORIA}/traertodos`);
@@ -99,9 +92,6 @@ export async function deleteCategory(id: number): Promise<string> {
     return handleResponse<string>(response); 
 }
 
-// ==========================================
-// 🍔 PRODUCTOS
-// ==========================================
 
 export async function getAllProducts(): Promise<IProductoReturn[]> {
     const response = await fetch(`${API_BASE_URL_PRODUCTO}/traertodos`); 
@@ -147,9 +137,6 @@ export async function deleteProduct(id: number): Promise<string> {
     return handleResponse<string>(response);
 }
 
-// ==========================================
-// 🛒 PEDIDOS
-// ==========================================
 
 /**
  * Envía el objeto de Pedido (Carrito) al endpoint de guardado transaccional en el Backend.

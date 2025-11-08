@@ -25,20 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const user: IUser = await loginUser(payload);
-            
-            // 🛑 Mapeo forzado: Si la API devuelve 'idUsuario', lo asignamos a 'id'.
             if (user.idUsuario) {
                  user.id = user.idUsuario;
             } else if ((user as any).userId) {
-                 // Soporte para otra posible clave de API
                  user.id = (user as any).userId; 
             }
-            
-            // CRÍTICO: Si el usuario NO tiene ID después del mapeo, abortamos.
             if (!user.id) { 
                 console.error("❌ La ID de usuario (idUsuario o id) no fue proporcionada por la API. Objeto recibido:", user);
                 errorMessageElement.textContent = "Error de sesión: ID no recuperada. Por favor, revise la respuesta de su API de login.";
-                return; // Detiene el proceso
+                return; 
             }
             
             const userRole = user.rol.toUpperCase();

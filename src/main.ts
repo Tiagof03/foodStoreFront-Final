@@ -1,2 +1,2 @@
-import './style.css'; // Importa tus estilos CSS
+import './style.css'; 
 console.log("Aplicación FoodStore inicializada.");

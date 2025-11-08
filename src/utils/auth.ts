@@ -31,12 +31,9 @@ export const checkAuhtUser = (
 ) => {
     const user = loadUser(); 
 
-    // VERIFICACIÓN 1: El objeto usuario NO existe, o NO tiene la propiedad 'rol'.
-    // Si falta 'rol', el usuario no está autenticado correctamente.
     if (!user || !user.rol) { 
         return navigateTo(loginPath); // Redirige al login.
     }
-    // VERIFICACIÓN 2: El rol existe pero es incorrecto (sensibilidad a mayúsculas/minúsculas)
     if (user.rol.toLowerCase() !== requiredRole.toLowerCase()) {
         return navigateTo(forbiddenPath); 
     }

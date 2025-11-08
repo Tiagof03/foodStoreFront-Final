@@ -1,6 +1,6 @@
 import { logout, checkAuhtUser } from "../../../utils/auth.ts"; 
 import type { Estado } from "../../../types/Estado.ts"; 
-import { saveOrder } from "../../../utils/localStorage.ts"; // <-- Importación para guardar localmente
+import { saveOrder } from "../../../utils/localStorage.ts"; 
 import { 
     loadCart, 
     clearCart, 
@@ -11,13 +11,8 @@ import {
 import type { ICartItem } from "../../../types/ICart.ts"; 
 import { createOrder } from "../../../service/api.ts"; 
 import type { IPedidoCreate, IDetallePedidoCreate, IPedidoReturn } from "../../../types/IPedido.ts";
-// Importaciones de tipos relacionadas con el detalle se pueden dejar, aunque no se usen directamente en esta función.
-// import type { IDetallePedidoReturn } from "../../../types/IDetallePedido.ts"; 
 import { loadUser } from "../../../utils/localStorage.ts"; 
 
-// ==========================================
-// SEGURIDAD Y REFERENCIAS DOM
-// ==========================================
 checkAuhtUser(
     "/src/pages/auth/login/login.html", 
     "/src/pages/admin/home/home.html", 
@@ -47,9 +42,6 @@ buttonLogout?.addEventListener("click", () => logout());
 
 const ENVIO_COSTO = 500; 
 
-// ==========================================
-// CONTROL DE MODAL
-// ==========================================
 function mostrarModalPedido() { modal?.classList.remove("hidden"); }
 function cerrarModal() { modal?.classList.add("hidden"); }
 function cerrarModalConfirmacion() { confirmacionModal?.classList.add("hidden"); }
@@ -64,9 +56,7 @@ btnVer?.addEventListener("click", () => {
     window.location.href = "../../client/orders/orders.html"; 
 });
 
-// ==========================================
-// FUNCIONES DE USUARIO
-// ==========================================
+
 const getUserId = (): number | null => {
     const user = loadUser();
     if (!user) return null;
@@ -82,9 +72,6 @@ const getUserId = (): number | null => {
     return null;
 };
 
-// ==========================================
-// CHECKOUT MODAL (Abrir)
-// ==========================================
 btnIniciarCheckout?.addEventListener("click", (e) => {
     e.preventDefault();
     const userId = getUserId();
@@ -100,16 +87,12 @@ btnIniciarCheckout?.addEventListener("click", (e) => {
     mostrarModalPedido(); 
 });
 
-// ==========================================
-// FORMULARIO CHECKOUT (Confirmar y guardar)
-// ==========================================
 const handleConfirmOrder = async (e: Event) => {
     e.preventDefault();
     if (!checkoutForm || !telefonoInput || !direccionInput || !pagoSelect) return;
 
     const userId = getUserId();
     const cart = loadCart();
-    // 1. Captura de datos de envío del formulario
     const telefono = telefonoInput.value.trim();
     const direccion = direccionInput.value.trim();
     const metodoPago = pagoSelect.value;
@@ -119,7 +102,6 @@ const handleConfirmOrder = async (e: Event) => {
         return alert("Completa todos los campos obligatorios.");
     }
 
-    // Mapeo carrito a IDetallePedidoCreate (Para la API)
     const detallesPedido: IDetallePedidoCreate[] = cart.map(item => ({
         idProducto: item.producto.id,
         cantidad: item.cantidad,
@@ -148,24 +130,17 @@ const handleConfirmOrder = async (e: Event) => {
     try {
         submitButton.disabled = true;
         cerrarModal();
-
-        // 2. Llamada a la API
         const response: IPedidoReturn = await createOrder(pedidoData);
         console.log("Pedido creado con éxito. ID:", response.id);
-
-        // 3. 💾 GUARDAR EL PEDIDO COMPLETO EN LOCALSTORAGE
-        // Combinamos la respuesta de la API con los datos de contacto del formulario
         const pedidoParaGuardar: IPedidoReturn = {
-            ...response, // Toma id, detallesPedido, total, etc. de la API
+            ...response, 
             telefonoContacto: telefono,
             direccionEntrega: direccion,
             metodoPago: metodoPago,
-            notas: notas || '' // Asegura que se guarde la nota (o string vacío)
+            notas: notas || '' 
         } as IPedidoReturn;
         
-        saveOrder(pedidoParaGuardar); // <-- ¡Guardado local implementado!
-
-        // 4. Finalización
+        saveOrder(pedidoParaGuardar); 
         clearCart();
         initCart();
         confirmacionModal?.classList.remove("hidden");
@@ -180,9 +155,6 @@ const handleConfirmOrder = async (e: Event) => {
 
 checkoutForm?.addEventListener("submit", handleConfirmOrder);
 
-// ==========================================
-// RENDER CARRITO
-// ==========================================
 function renderCartItems(cart: ICartItem[]) {
     if (!carritoItemsContainer) return;
     carritoItemsContainer.innerHTML = ''; 
@@ -235,9 +207,6 @@ const initCart = () => {
     actualizarTotales(cart);
 };
 
-// ==========================================
-// EVENTOS DEL CARRITO
-// ==========================================
 vaciarBtn?.addEventListener('click', () => {
     if (confirm("¿Vaciar el carrito?")) {
         clearCart();

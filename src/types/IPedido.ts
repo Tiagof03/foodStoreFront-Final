@@ -19,9 +19,7 @@ export interface IPedidoCreate {
 }
 
 export interface IPedidoBase {
-    // Tipo TypeScript
     fecha: string; 
-    // Tipo TypeScript
     estado: Estado;
 }
 

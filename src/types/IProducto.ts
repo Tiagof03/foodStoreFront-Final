@@ -1,5 +1,5 @@
 import type { ICategoria } from "./ICategoria"
-// Interfaz utilizada a la hora de crear un producto
+
 export interface IProducto {
     nombre:string,
     id?:number,
@@ -10,7 +10,6 @@ export interface IProducto {
     idCategoria:number
 }
 
-// Interfaz utilizada para recibir los datos del backend
 export interface IProductoReturn {
     id:number,
     nombre:string,

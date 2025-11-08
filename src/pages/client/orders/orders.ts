@@ -1,19 +1,11 @@
-// orders.ts
-
-// --- INTERFACES CORREGIDAS ---
-// Necesitamos una interfaz que refleje la estructura anidada de los datos guardados.
-
 interface ProductoDetalleLocal {
-  nombre: string; // <-- Aquí se encuentra el nombre del producto
-  // Puedes agregar otras propiedades si las usas (id, src, etc.)
+  nombre: string;
 }
 
 interface DetallePedido {
-  // El nombre ya no está aquí directamente, sino dentro de productoDto
   cantidad: number;
   precioUnitario: number;
   
-  // 🛑 NUEVA PROPIEDAD: El objeto anidado que contiene el nombre
   productoDto: ProductoDetalleLocal; 
 }
 
@@ -34,10 +26,8 @@ const filtroSelect = document.querySelector(".filtro-select") as HTMLSelectEleme
 
 let allLoadedOrders: PedidoLocal[] = [];
 
-// Función para normalizar estados
 const normalizeEstado = (estado: string) => estado.toUpperCase().replace(/\s/g, "_");
 
-// Clase CSS por estado
 const getEstadoClass = (estado: string): string => {
   switch (normalizeEstado(estado)) {
     case "PENDIENTE":
@@ -55,14 +45,12 @@ const getEstadoClass = (estado: string): string => {
   }
 };
 
-// Crear tarjeta de pedido
 const createPedidoCard = (pedido: PedidoLocal): HTMLElement => {
   const card = document.createElement("div");
   card.className = "pedido-card";
   card.dataset.pedidoId = String(pedido.id);
 
   const detalles = pedido.detallesPedido || [];
-  // Aseguramos que 'productoDto' existe para acceder a 'nombre'
   const detallesValidos = detalles.filter(item => item.productoDto && item.productoDto.nombre);
   const totalItems = detallesValidos.reduce((sum, item) => sum + item.cantidad, 0);
 
@@ -94,7 +82,6 @@ const createPedidoCard = (pedido: PedidoLocal): HTMLElement => {
 
   detallesValidos.slice(0, 3).forEach(item => {
     const li = document.createElement("li");
-    // 🛑 CORRECCIÓN: Acceso correcto al nombre
     li.textContent = `${item.productoDto.nombre} (x${item.cantidad})`;
     ul.appendChild(li);
   });
@@ -127,7 +114,6 @@ const createPedidoCard = (pedido: PedidoLocal): HTMLElement => {
   return card;
 };
 
-// Mostrar pedidos
 const displayOrders = (orders: PedidoLocal[]) => {
   if (!pedidosListContainer) return;
 
@@ -147,7 +133,6 @@ const displayOrders = (orders: PedidoLocal[]) => {
   });
 };
 
-// Cargar pedidos desde localStorage
 const loadOrders = () => {
   pedidosListContainer.innerHTML = '<p class="loading-message">Cargando pedidos...</p>';
 
@@ -165,25 +150,21 @@ const loadOrders = () => {
     return;
   }
 
-  // 🛑 CORRECCIÓN: FILTRO PARA EVITAR DUPLICADOS (común con IDs de prueba)
   const uniqueOrdersMap = new Map<number, PedidoLocal>();
   pedidosLocales.forEach(pedido => {
-    // Sobreescribe si encuentra un ID duplicado, conservando la última versión.
     uniqueOrdersMap.set(pedido.id, pedido);
   });
   
-  pedidosLocales = Array.from(uniqueOrdersMap.values()).reverse(); // .reverse() para mostrar el más reciente primero
+  pedidosLocales = Array.from(uniqueOrdersMap.values()).reverse(); 
 
   allLoadedOrders = pedidosLocales;
   displayOrders(allLoadedOrders);
 };
 
-// Mostrar detalle del pedido en un modal simple
 const showPedidoDetails = (pedido: PedidoLocal) => {
   const detalleList = pedido.detallesPedido
-    .filter(item => item.productoDto && item.productoDto.nombre) // Solo ítems válidos
+    .filter(item => item.productoDto && item.productoDto.nombre) 
     .map(
-        // 🛑 CORRECCIÓN: Acceso correcto al nombre
         item => `<li>${item.productoDto.nombre} x${item.cantidad} = $${(item.precioUnitario * item.cantidad).toFixed(2)}</li>`
     ).join("");
 
@@ -212,7 +193,6 @@ const showPedidoDetails = (pedido: PedidoLocal) => {
   });
 };
 
-// Click en tarjeta
 pedidosListContainer?.addEventListener("click", (e) => {
   const target = e.target as HTMLElement;
   const card = target.closest(".pedido-card") as HTMLElement;
@@ -229,7 +209,6 @@ pedidosListContainer?.addEventListener("click", (e) => {
   }
 });
 
-// Filtrado
 filtroSelect?.addEventListener("change", () => {
   const selectedState = filtroSelect.value;
 

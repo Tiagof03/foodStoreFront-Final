@@ -34,13 +34,9 @@ export function removeUser(): void {
         console.error("Error al eliminar usuario de localStorage:", e);
     }
 }
-
-//Guardado de pedidos 
 import type { IPedidoReturn } from "../types/IPedido.js";
 
 const PEDIDOS_KEY = "pedidosUsuario";
-
-/** Guarda un pedido en localStorage */
 export function saveOrder(pedido: IPedidoReturn): void {
     try {
         const pedidosJSON = localStorage.getItem(PEDIDOS_KEY);
@@ -51,8 +47,6 @@ export function saveOrder(pedido: IPedidoReturn): void {
         console.error("Error al guardar pedido en localStorage:", e);
     }
 }
-
-/** Obtiene todos los pedidos del localStorage */
 export function getOrders(): IPedidoReturn[] {
     try {
         const pedidosJSON = localStorage.getItem(PEDIDOS_KEY);
@@ -62,8 +56,6 @@ export function getOrders(): IPedidoReturn[] {
         return [];
     }
 }
-
-/** Vacía todos los pedidos (opcional, para pruebas) */
 export function clearOrders(): void {
     try {
         localStorage.removeItem(PEDIDOS_KEY);
