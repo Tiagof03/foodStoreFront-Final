@@ -4,6 +4,38 @@ const resumenSubtotal = document.querySelector('.resumen-line span:last-child') 
 const resumenEnvio = document.querySelector('.resumen-line:nth-of-type(2) span:last-child') as HTMLElement;
 const resumenTotal = document.querySelector('.resumen-total span:last-child') as HTMLElement;
 const vaciarBtn = document.querySelector('.vaciar') as HTMLButtonElement;
+const modal = document.getElementById("pedidoModal") as HTMLElement;
+const btnSeguir = document.getElementById("btnSeguirComprando") as HTMLButtonElement;
+const btnVer = document.getElementById("btnVerPedidos") as HTMLButtonElement;
+
+
+function mostrarModalPedido() {
+  modal.classList.remove("hidden");
+}
+
+
+function cerrarModal() {
+  modal.classList.add("hidden");
+}
+
+
+btnSeguir.addEventListener("click", () => {
+  cerrarModal();
+  window.location.href = "/src/pages/store/home/home.html"; // vuelve al home
+});
+
+btnVer.addEventListener("click", () => {
+  cerrarModal();
+  window.location.href = "/src/pages/client/orders/orders.html"; // va a los pedidos
+});
+
+
+const btnConfirmarPedido = document.querySelector(".btn--log--reg");
+btnConfirmarPedido?.addEventListener("click", (e) => {
+  e.preventDefault();
+  mostrarModalPedido();
+});
+
 
 
 const ENVIO_COSTO = 500;
