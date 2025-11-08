@@ -314,7 +314,6 @@ input, select {
 }
 
 /* HOME CLIENTE */
-
 .body--home-cliente {
   margin: 0;
   font-family: sans-serif;
@@ -405,8 +404,8 @@ input, select {
     border-radius: 8px; 
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     height: fit-content; 
-    position: relative; /* Asegura el contexto para z-index */
-    z-index: 50; /* Z-index menor que el header, pero mayor que el contenido normal */
+    position: relative; 
+    z-index: 50; 
 }
 
 .sidebar__title {
@@ -477,6 +476,7 @@ input, select {
 
 .main-content {
     flex: 1;
+    padding-left: 10px;
 }
 
 .filter-bar {
@@ -540,16 +540,42 @@ input, select {
 .content-title {
     font-size: 1.6em;
     font-weight: 700;
-    margin-bottom: var(--space-lg);
+    margin-left: 15px; 
+    margin-bottom: 20px;
     display: flex; 
     align-items: baseline;
-    gap: var(--space-sm);
+    gap: var(--space-md);
 }
-.product-count {
-    font-size: 0.9em;
-    color: var(--gray-medium);
-    font-weight: 400;
+
+.store-layout {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
 }
+
+.sidebar {
+  position: relative;
+  width: 220px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  height: fit-content;
+  transition: all 0.3s ease;
+}
+
+.sidebar__title {
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
 
 /**Estilos ProductoDetail*/
 .cart-btn {
@@ -721,7 +747,7 @@ input, select {
     background-color: var(--light);
 }
 
-/* === 🛒 Estilos de Carrito === */
+/* === Estilos de Carrito === */
 .carrito-container {
   max-width: 1200px;
   margin: 0 auto;
