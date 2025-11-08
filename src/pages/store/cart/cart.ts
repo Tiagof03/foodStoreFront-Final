@@ -1,112 +1,281 @@
+import { logout, checkAuhtUser } from "../../../utils/auth.ts"; 
+import type { Estado } from "../../../types/Estado.ts"; 
+import { saveOrder } from "../../../utils/localStorage.ts"; // <-- Importación para guardar localmente
+import { 
+    loadCart, 
+    clearCart, 
+    updateItemQuantity, 
+    removeItemFromCart, 
+    getCartTotal
+} from "../../../utils/Maincart.ts"; 
+import type { ICartItem } from "../../../types/ICart.ts"; 
+import { createOrder } from "../../../service/api.ts"; 
+import type { IPedidoCreate, IDetallePedidoCreate, IPedidoReturn } from "../../../types/IPedido.ts";
+// Importaciones de tipos relacionadas con el detalle se pueden dejar, aunque no se usen directamente en esta función.
+// import type { IDetallePedidoReturn } from "../../../types/IDetallePedido.ts"; 
+import { loadUser } from "../../../utils/localStorage.ts"; 
 
-const carritoItems = document.querySelector('.carrito-items') as HTMLElement;
-const resumenSubtotal = document.querySelector('.resumen-line span:last-child') as HTMLElement;
+// ==========================================
+// SEGURIDAD Y REFERENCIAS DOM
+// ==========================================
+checkAuhtUser(
+    "/src/pages/auth/login/login.html", 
+    "/src/pages/admin/home/home.html", 
+    "USUARIO"
+);
+
+const carritoItemsContainer = document.querySelector('.carrito-items') as HTMLElement | null;
+const resumenSubtotal = document.querySelector('.resumen-line:first-of-type span:last-child') as HTMLElement;
 const resumenEnvio = document.querySelector('.resumen-line:nth-of-type(2) span:last-child') as HTMLElement;
 const resumenTotal = document.querySelector('.resumen-total span:last-child') as HTMLElement;
 const vaciarBtn = document.querySelector('.vaciar') as HTMLButtonElement;
-const modal = document.getElementById("pedidoModal") as HTMLElement;
+
+const modal = document.getElementById("pedidoModal") as HTMLElement; 
+const checkoutForm = document.getElementById("checkoutForm") as HTMLFormElement; 
+const telefonoInput = document.getElementById("telefono") as HTMLInputElement;
+const direccionInput = document.getElementById("direccion") as HTMLInputElement;
+const pagoSelect = document.getElementById("metodoPago") as HTMLSelectElement;
+const notasTextarea = document.getElementById("notas") as HTMLTextAreaElement;
+
+const confirmacionModal = document.getElementById("confirmacionModal") as HTMLElement; 
 const btnSeguir = document.getElementById("btnSeguirComprando") as HTMLButtonElement;
 const btnVer = document.getElementById("btnVerPedidos") as HTMLButtonElement;
+const btnIniciarCheckout = document.querySelector(".btn--log--reg") as HTMLButtonElement; 
 
+const buttonLogout = document.querySelector(".boton-sesion") as HTMLButtonElement | null;
+buttonLogout?.addEventListener("click", () => logout());
 
-function mostrarModalPedido() {
-  modal.classList.remove("hidden");
-}
+const ENVIO_COSTO = 500; 
 
+// ==========================================
+// CONTROL DE MODAL
+// ==========================================
+function mostrarModalPedido() { modal?.classList.remove("hidden"); }
+function cerrarModal() { modal?.classList.add("hidden"); }
+function cerrarModalConfirmacion() { confirmacionModal?.classList.add("hidden"); }
 
-function cerrarModal() {
-  modal.classList.add("hidden");
-}
-
-
-btnSeguir.addEventListener("click", () => {
-  cerrarModal();
-  window.location.href = "/src/pages/store/home/home.html"; // vuelve al home
+btnSeguir?.addEventListener("click", () => {
+    cerrarModalConfirmacion();
+    window.location.href = "../home/home.html"; 
 });
 
-btnVer.addEventListener("click", () => {
-  cerrarModal();
-  window.location.href = "/src/pages/client/orders/orders.html"; // va a los pedidos
+btnVer?.addEventListener("click", () => {
+    cerrarModalConfirmacion();
+    window.location.href = "../../client/orders/orders.html"; 
 });
 
+// ==========================================
+// FUNCIONES DE USUARIO
+// ==========================================
+const getUserId = (): number | null => {
+    const user = loadUser();
+    if (!user) return null;
 
-const btnConfirmarPedido = document.querySelector(".btn--log--reg");
-btnConfirmarPedido?.addEventListener("click", (e) => {
-  e.preventDefault();
-  mostrarModalPedido();
+    const ids = ['id','idUsuario','usuarioId','userId'];
+    for (const key of ids) {
+        const value = (user as any)[key];
+        if (value) {
+            const num = Number(value);
+            if (!isNaN(num) && num > 0) return num;
+        }
+    }
+    return null;
+};
+
+// ==========================================
+// CHECKOUT MODAL (Abrir)
+// ==========================================
+btnIniciarCheckout?.addEventListener("click", (e) => {
+    e.preventDefault();
+    const userId = getUserId();
+    const cart = loadCart();
+
+    if (!userId) return alert("Debes iniciar sesión para completar el pedido.");
+    if (cart.length === 0) return alert("El carrito está vacío.");
+
+    const totalPagarElement = document.getElementById("total-a-pagar") as HTMLElement;
+    if (totalPagarElement) {
+        totalPagarElement.textContent = `$${(getCartTotal() + ENVIO_COSTO).toFixed(2)}`;
+    }
+    mostrarModalPedido(); 
 });
 
+// ==========================================
+// FORMULARIO CHECKOUT (Confirmar y guardar)
+// ==========================================
+const handleConfirmOrder = async (e: Event) => {
+    e.preventDefault();
+    if (!checkoutForm || !telefonoInput || !direccionInput || !pagoSelect) return;
 
+    const userId = getUserId();
+    const cart = loadCart();
+    // 1. Captura de datos de envío del formulario
+    const telefono = telefonoInput.value.trim();
+    const direccion = direccionInput.value.trim();
+    const metodoPago = pagoSelect.value;
+    const notas = notasTextarea.value.trim();
 
-const ENVIO_COSTO = 500;
+    if (!telefono || !direccion || metodoPago === "Seleccione un método") {
+        return alert("Completa todos los campos obligatorios.");
+    }
 
+    // Mapeo carrito a IDetallePedidoCreate (Para la API)
+    const detallesPedido: IDetallePedidoCreate[] = cart.map(item => ({
+        idProducto: item.producto.id,
+        cantidad: item.cantidad,
+        precioUnitario: Number(item.producto.precio),
+    }));
 
-function actualizarTotales() {
-  let subtotal = 0;
+    const today = new Date().toISOString().split('T')[0]; 
+    const subtotal = getCartTotal(); 
+    const total = subtotal + ENVIO_COSTO; 
+    const estadoInicial: Estado = "PENDIENTE" as unknown as Estado; 
 
+    const submitButton = checkoutForm.querySelector("button[type='submit']") as HTMLButtonElement;
 
-  document.querySelectorAll('.carrito-item').forEach(item => {
-    const precioTexto = (item.querySelector('.item-precio') as HTMLElement).textContent!;
-    const cantidadInput = item.querySelector('.qty-input') as HTMLInputElement;
+    const pedidoData: IPedidoCreate = {
+        fecha: today,
+        estado: estadoInicial,
+        usuarioId: userId!,
+        telefono,
+        direccion,
+        metodoPago,
+        notas,
+        detallesPedido,
+        total
+    };
 
-    const precio = parseFloat(precioTexto.replace(/[^0-9.]/g, '')); 
-    const cantidad = parseInt(cantidadInput.value);
-    const totalItem = precio * cantidad;
+    try {
+        submitButton.disabled = true;
+        cerrarModal();
 
-  
-    const totalEl = item.querySelector('.item-total') as HTMLElement;
-    totalEl.textContent = `$${totalItem.toFixed(2)}`;
+        // 2. Llamada a la API
+        const response: IPedidoReturn = await createOrder(pedidoData);
+        console.log("Pedido creado con éxito. ID:", response.id);
 
-    subtotal += totalItem;
-  });
+        // 3. 💾 GUARDAR EL PEDIDO COMPLETO EN LOCALSTORAGE
+        // Combinamos la respuesta de la API con los datos de contacto del formulario
+        const pedidoParaGuardar: IPedidoReturn = {
+            ...response, // Toma id, detallesPedido, total, etc. de la API
+            telefonoContacto: telefono,
+            direccionEntrega: direccion,
+            metodoPago: metodoPago,
+            notas: notas || '' // Asegura que se guarde la nota (o string vacío)
+        } as IPedidoReturn;
+        
+        saveOrder(pedidoParaGuardar); // <-- ¡Guardado local implementado!
 
+        // 4. Finalización
+        clearCart();
+        initCart();
+        confirmacionModal?.classList.remove("hidden");
 
-  resumenSubtotal.textContent = `$${subtotal.toFixed(2)}`;
-  resumenEnvio.textContent = `$${ENVIO_COSTO.toFixed(2)}`;
-  resumenTotal.textContent = `$${(subtotal + ENVIO_COSTO).toFixed(2)}`;
+    } catch (error) {
+        console.error("Error en el checkout:", error);
+        alert(`❌ Error al confirmar el pedido: ${error instanceof Error ? error.message : "Error desconocido"}`);
+    } finally {
+        submitButton.disabled = false;
+    }
+};
+
+checkoutForm?.addEventListener("submit", handleConfirmOrder);
+
+// ==========================================
+// RENDER CARRITO
+// ==========================================
+function renderCartItems(cart: ICartItem[]) {
+    if (!carritoItemsContainer) return;
+    carritoItemsContainer.innerHTML = ''; 
+    const isCartEmpty = cart.length === 0;
+
+    btnIniciarCheckout.disabled = isCartEmpty;
+    vaciarBtn.disabled = isCartEmpty;
+
+    if (isCartEmpty) {
+        carritoItemsContainer.innerHTML = '<p class="empty-cart-message">El carrito está vacío.</p>';
+        return;
+    }
+
+    cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'carrito-item';
+        itemElement.dataset.productId = String(item.producto.id); 
+        const subtotalItem = item.cantidad * Number(item.producto.precio); 
+
+        itemElement.innerHTML = `
+            <img src="${item.producto.src}" alt="${item.producto.nombre}" class="carrito-item-img">
+            <div class="carrito-item-info">
+                <h4>${item.producto.nombre}</h4>
+                <p>${item.producto.descripcion || 'Sin descripción'}</p>
+                <span class="item-precio">$${Number(item.producto.precio).toFixed(2)} c/u</span>
+            </div>
+            <div class="item-cantidad">
+                <button class="qty-btn" data-action="decrease">-</button>
+                <input type="number" min="1" max="${item.producto.stock}" value="${item.cantidad}" class="qty-input" data-id="${item.producto.id}"> 
+                <button class="qty-btn" data-action="increase">+</button>
+            </div>
+            <span class="item-total">$${subtotalItem.toFixed(2)}</span>
+            <button class="delete-item" data-id="${item.producto.id}">🗑️</button>
+        `;
+        carritoItemsContainer.appendChild(itemElement);
+    });
 }
 
-
-function eliminarItem(boton: HTMLElement) {
-  const item = boton.closest('.carrito-item')!;
-  item.remove();
-  actualizarTotales();
+function actualizarTotales(cart: ICartItem[]) {
+    const subtotal = cart.reduce((sum, item) => sum + item.cantidad * Number(item.producto.precio), 0);
+    const total = subtotal + ENVIO_COSTO;
+    resumenSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+    resumenEnvio.textContent = `$${ENVIO_COSTO.toFixed(2)}`;
+    resumenTotal.textContent = `$${total.toFixed(2)}`;
 }
 
+const initCart = () => {
+    const cart = loadCart();
+    renderCartItems(cart);
+    actualizarTotales(cart);
+};
 
-function vaciarCarrito() {
-  carritoItems.innerHTML = '';
-  actualizarTotales();
-}
-
-
-carritoItems.addEventListener('click', (e) => {
-  const target = e.target as HTMLElement;
-
-  
-  if (target.classList.contains('qty-btn') && target.textContent === '-') {
-    const input = target.nextElementSibling as HTMLInputElement;
-    if (parseInt(input.value) > 1) input.value = String(parseInt(input.value) - 1);
-    actualizarTotales();
-  }
-
-
-  if (target.classList.contains('qty-btn') && target.textContent === '+') {
-    const input = target.previousElementSibling as HTMLInputElement;
-    input.value = String(parseInt(input.value) + 1);
-    actualizarTotales();
-  }
-
-  
-  if (target.classList.contains('delete-item')) {
-    eliminarItem(target);
-  }
+// ==========================================
+// EVENTOS DEL CARRITO
+// ==========================================
+vaciarBtn?.addEventListener('click', () => {
+    if (confirm("¿Vaciar el carrito?")) {
+        clearCart();
+        initCart(); 
+    }
 });
 
+carritoItemsContainer?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const itemElement = target.closest('.carrito-item') as HTMLElement; 
+    if (!itemElement) return;
+    const productId = Number(itemElement.dataset.productId); 
+    if (isNaN(productId)) return;
 
-vaciarBtn.addEventListener('click', () => {
-  vaciarCarrito();
+    if (target.classList.contains('qty-btn')) {
+        const input = itemElement.querySelector('.qty-input') as HTMLInputElement;
+        let newQuantity = parseInt(input.value);
+        if (target.dataset.action === 'decrease' && newQuantity > 1) newQuantity--;
+        else if (target.dataset.action === 'increase') newQuantity++;
+        else return;
+        updateItemQuantity(productId, newQuantity);
+        initCart(); 
+    }
+
+    if (target.classList.contains('delete-item')) {
+        removeItemFromCart(productId);
+        initCart(); 
+    }
 });
 
+carritoItemsContainer?.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement;
+    if (target.classList.contains('qty-input')) {
+        const productId = Number(target.dataset.id);
+        const newQuantity = parseInt(target.value);
+        updateItemQuantity(productId, newQuantity);
+        initCart();
+    }
+});
 
-actualizarTotales();
+document.addEventListener('DOMContentLoaded', initCart);

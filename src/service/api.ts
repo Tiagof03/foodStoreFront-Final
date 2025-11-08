@@ -1,10 +1,15 @@
+// /src/service/api.ts
+
 import type { IUser, IRegister, ILogin } from "../types/IUser";
 import type { ICategoria, ICategoriaReturn } from "../types/ICategoria";
 import type { IProducto, IProductoReturn } from "../types/IProducto";
+import type { IPedidoCreate, IPedidoReturn } from "../types/IPedido"; // 🛑 Asegúrate de tener IPedidoReturn
+
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/usuario";
 const API_BASE_URL_CATEGORIA = import.meta.env.VITE_API_URL_CATEGORIA || "http://localhost:8080/categoria";
 const API_BASE_URL_PRODUCTO = import.meta.env.VITE_API_URL_PRODUCTO || "http://localhost:8080/producto";
+const API_BASE_URL_PEDIDO = import.meta.env.VITE_API_URL_PEDIDO || "http://localhost:8080/pedido"; 
 
 /**
  * Función para manejar la respuesta JSON o un error del servidor.
@@ -17,7 +22,8 @@ async function handleResponse<T>(response: Response): Promise<T> {
     }
     if (!response.ok) {
         const errorBody = await response.text();
-        throw new Error(errorBody || `Error HTTP: ${response.status}`);
+        // Incluimos la URL en el error para facilitar el debug
+        throw new Error(errorBody || `Error HTTP: ${response.status} en ${response.url}`); 
     }
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
@@ -25,6 +31,10 @@ async function handleResponse<T>(response: Response): Promise<T> {
     }
     return response.text() as Promise<T>;
 }
+
+// ==========================================
+// 🔐 USUARIOS Y AUTENTICACIÓN
+// ==========================================
 
 export async function registerUser(data: IRegister): Promise<IUser> {
     const response = await fetch(`${API_BASE_URL}/guardar`, {
@@ -45,6 +55,10 @@ export async function loginUser(data: ILogin): Promise<IUser> {
 
     return handleResponse<IUser>(response);
 }
+
+// ==========================================
+// 🏷️ CATEGORÍAS
+// ==========================================
 
 export async function getAllCategories(): Promise<ICategoriaReturn[]> {
     const response = await fetch(`${API_BASE_URL_CATEGORIA}/traertodos`);
@@ -76,7 +90,6 @@ export async function updateCategoryDescription(id: number, description: string)
 
 
 export async function deleteCategory(id: number): Promise<string> {
-    // Validación defensiva para prevenir el error "NaN" en el Backend.
     if (isNaN(id) || id <= 0) {
         throw new Error(`ID de categoría inválido (${id}) para la eliminación.`);
     }
@@ -86,10 +99,23 @@ export async function deleteCategory(id: number): Promise<string> {
     return handleResponse<string>(response); 
 }
 
+// ==========================================
+// 🍔 PRODUCTOS
+// ==========================================
+
 export async function getAllProducts(): Promise<IProductoReturn[]> {
     const response = await fetch(`${API_BASE_URL_PRODUCTO}/traertodos`); 
     return handleResponse<IProductoReturn[]>(response);
 }
+
+/**
+ * Trae un producto por su ID.
+ * Endpoint: /producto/traerid/{id}
+ */
+export const getProductById = async (id: number): Promise<IProductoReturn> => {
+    const response = await fetch(`${API_BASE_URL_PRODUCTO}/traerid/${id}`); 
+    return handleResponse<IProductoReturn>(response);
+};
 
 export async function createProduct(data: IProducto): Promise<IProductoReturn> {
     const response = await fetch(`${API_BASE_URL_PRODUCTO}/guardar`, {
@@ -119,4 +145,37 @@ export async function deleteProduct(id: number): Promise<string> {
         method: "DELETE",
     });
     return handleResponse<string>(response);
+}
+
+// ==========================================
+// 🛒 PEDIDOS
+// ==========================================
+
+/**
+ * Envía el objeto de Pedido (Carrito) al endpoint de guardado transaccional en el Backend.
+ * @param data DTO del pedido con usuarioId e ítems.
+ * @returns La respuesta del servidor (generalmente el PedidoDto guardado).
+ */
+export async function createOrder(data: IPedidoCreate): Promise<any> { 
+    const response = await fetch(`${API_BASE_URL_PEDIDO}/guardar`, {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            // Si usas JWT, aquí iría el 'Authorization'
+        },
+        body: JSON.stringify(data),
+    });
+
+    return handleResponse<any>(response); 
+}
+
+/**
+ * Trae todos los pedidos asociados a un ID de usuario.
+ * Endpoint asumido: /pedido/traerporusuario/{idUsuario}
+ * @param userId ID del usuario logueado.
+ * @returns Array de objetos IPedidoReturn.
+ */
+export async function getOrdersByUserId(userId: number): Promise<IPedidoReturn[]> {
+    const response = await fetch(`${API_BASE_URL_PEDIDO}/traerporusuario/${userId}`); 
+    return handleResponse<IPedidoReturn[]>(response);
 }

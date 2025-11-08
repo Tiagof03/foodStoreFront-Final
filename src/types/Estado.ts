@@ -1,6 +1,2 @@
-export type Estado = {
-    PENDIENTE: 'pendiente',
-    CONFIRMADO: 'confirmado',
-    CANCELADO: 'cancelado',
-    TERMINADO: 'terminado'
-}
+
+export type Estado = "pendiente" | "confirmado" | "cancelado" | "terminado";

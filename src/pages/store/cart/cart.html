@@ -4,81 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Carrito</title>
-    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="../../../style.css"> 
 </head>
 
 <body class="body--home-cliente">
     
-    <header class="header--home--admin">
-        <div class="logo-foodstore">
+<header class="header--home--admin">
+    <div class="logo-foodstore">
         <span class="icono-pizza">🍕</span>
         <span>FoodStore</span>
-        </div>
+    </div>
 
-        <ul class="menu-superior">
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Mis Pedidos</a></li>
-        <li><a href="#">Administracion</a></li>
-        <li><a href="#">Carrito 🛒</a></li>
-        <li><a href="#">Juan Pérez 👤</a></li>
+    <ul class="menu-superior">
+        <li><a href="../home/home.html">Inicio</a></li>
+        <li><a href="../../client/orders/orders.html">Mis Pedidos</a></li> 
         <li><button class="boton-sesion">Cerrar sesión</button></li>
-        </ul>
-    </header>
+    </ul>
+</header>
 
-
-    <main class="carrito-container">
-        <h2 class="page-title">Mi Carrito</h2>
+<main class="carrito-container">
+    <h2 class="page-title">Mi Carrito</h2>
 
     <div class="carrito-content">
-    <div class="carrito-items">
-        <div class="carrito-item">
-        <img src="https://demo01.menudigital.ar/wp-content/uploads/2022/06/hamburguesa-triple.jpg" alt="Hamburguesa triple" class="carrito-item-img">
-
-        <div class="carrito-item-info">
-            <h4>Hamburguesa triple</h4>
-            <br>
-            <p>Hamburguesa triple smash</p>
-            <br>
-            <span class="item-precio">$25000.00 c/u</span>
+        <div class="carrito-items">
+            <p class="empty-cart-message">Cargando carrito...</p> 
         </div>
 
-        <div class="item-cantidad">
-            <button class="qty-btn">-</button>
-            <input type="number" min="1" value="1" class="qty-input">
-            <button class="qty-btn">+</button>
+        <div class="carrito-resumen">
+            <h3 class="resumen-title">Resumen del Pedido</h3>
+            <div class="resumen-line"><span>Subtotal:</span><span>$0.00</span></div>
+            <hr>
+            <div class="resumen-line"><span>Envío:</span><span>$500.00</span></div>
+            <hr>
+            <div class="resumen-total"><span>Total:</span><span>$500.00</span></div>
+
+            <button class="btn--log--reg">Proceder al Pago</button>
+            <button class="boton-sesion vaciar">Vaciar Carrito</button>
         </div>
-
-        <span class="item-total">$25000.00</span>
-        <button class="delete-item">🗑️</button>
-        </div>
-    </div>
-
-    <div class="carrito-resumen">
-        <h3 class="resumen-title">Resumen del Pedido</h3>
-        <div class="resumen-line"><span>Subtotal:</span><span>$25000.00</span></div>
-        <hr>
-        <div class="resumen-line"><span>Envío:</span><span>$500.00</span></div>
-        <hr>
-        <div class="resumen-total"><span>Total:</span><span>$25500.00</span></div>
-
-        <button class="btn--log--reg">Proceder al Pago</button>
-        <button class="boton-sesion vaciar">Vaciar Carrito</button>
-    </div>
     </div>
 </main>
 
-
+<!-- 🟩 MODAL 1: FORMULARIO DE PEDIDO -->
 <div id="pedidoModal" class="modal-overlay hidden">
-<div class="modal-content">
+  <div class="modal-content">
+    <h2>Completar Pedido</h2>
+    <form id="checkoutForm">
+      <label for="telefono">Teléfono</label>
+      <br>
+      <input type="text" id="telefono" placeholder="Ej: +54 9 261 123-4567" required>
+        <br><br>
+      <label for="direccion">Dirección de Entrega</label>
+      <br>
+      <input type="text" id="direccion" placeholder="Calle, número, piso, depto" required>
+        <br><br>
+      <label for="metodoPago">Método de Pago</label>
+      <br>
+      <select id="metodoPago" required>
+        <br><br>
+        <option selected>Seleccione un método</option>
+        <option value="Efectivo">Efectivo</option>
+        <option value="Tarjeta">Tarjeta</option>
+        <option value="Transferencia">Transferencia</option>
+      </select>
+        <br><br>
+      <label for="notas">Notas adicionales (opcional)</label>
+      <br><br>
+      <textarea id="notas" placeholder="Instrucciones especiales, timbre, etc."></textarea>
+
+      <p>Total a pagar: <strong id="total-a-pagar">$0.00</strong></p>
+
+      <button type="submit" class="btn--log--reg">Confirmar Pedido</button>
+    </form>
+  </div>
+</div>
+
+<!-- 🟩 MODAL 2: CONFIRMACIÓN FINAL -->
+<div id="confirmacionModal" class="modal-overlay hidden">
+  <div class="modal-content">
     <h2>✅ Pedido confirmado</h2>
     <p>Tu pedido ha sido registrado con éxito. ¡Gracias por tu compra!</p>
     <div class="modal-buttons">
-    <button id="btnSeguirComprando" class="btn--log--reg">Seguir comprando</button>
-    <button id="btnVerPedidos" class="boton-sesion">Ver mis pedidos</button>
+      <button id="btnSeguirComprando" class="btn--log--reg">Seguir comprando</button>
+      <button id="btnVerPedidos" class="boton-sesion">Ver mis pedidos</button>
     </div>
-</div>
+  </div>
 </div>
 
-<script type="module" src="./carrito.ts"></script>
+<script type="module" src="./cart.ts"></script>
 </body>
 </html>

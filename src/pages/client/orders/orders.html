@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mis Pedidos</title>
-  <link rel="stylesheet" href="../../../style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito</title>
+    <link rel="stylesheet" href="../../../style.css"> 
 </head>
 
 <body class="body--home-cliente">
@@ -16,41 +16,27 @@
     </div>
 
     <ul class="menu-superior">
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Mis Pedidos</a></li>
-      <li><a href="#">Carrito 🛒</a></li>
-      <li><a href="#">Juan Pérez 👤</a></li>
+      <li><a href="../../store/home/home.html">Inicio</a></li>
+      <li><a href="../../store/cart/cart.html">Carrito 🛒</a></li>
       <li><button class="boton-sesion">Cerrar sesión</button></li>
     </ul>
   </header>
 
-  <main class="pedidos-container">
+  <main class="pedidos-container"> 
     <div class="titulo-filtro">
-      <h2 class="page-title">Mis Pedidos</h2>
-      <select class="filtro-select">
-        <option value="todos">Todos</option>
-        <option value="disponibles">Disponibles</option>
-        <option value="no_disponibles">No disponibles</option>
-      </select>
+        <h2 class="page-title">Mis Pedidos</h2>
+        <select class="filtro-select">
+            <option value="todos">Todos</option>
+            <option value="PENDIENTE">Pendiente</option>
+            <option value="ENVIADO">Enviado</option>
+            <option value="ENTREGADO">Entregado</option>
+            <option value="CANCELADO">Cancelado</option>
+            </select>
     </div>
-
-    <div class="pedido-card">
-      <div class="pedido-header">
-        <h3>Pedido #ORD-1760797178248</h3>
-        <span class="estado-pendiente">PENDIENTE</span>
-      </div>
-
-      <p class="pedido-fecha">📅 18 de octubre de 2025, 11:19 a. m.</p>
-      <ul class="pedido-items">
-        <li>🍔 Hamburguesa triple (x1)</li>
-      </ul>
-
-      <div class="pedido-footer">
-        <span class="pedido-productos">📦 1 producto(s)</span>
-        <span class="pedido-total">$25,500.00</span>
-      </div>
-    </div>
-  </main>
+    
+    <div id="pedidos-list-target" class="pedidos-list-target">
+        </div>
+</main>
 
   <script type="module" src="orders.ts"></script>
 </body>

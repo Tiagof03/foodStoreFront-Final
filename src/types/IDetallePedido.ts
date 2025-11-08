@@ -1,13 +1,10 @@
-import type { IProducto } from "./IProducto"
+import type { IProductoReturn } from './IProducto.ts';
 
-export interface IDetallePedido {
-    idproducto: Number,
-    cantidad: Number
-}
-
+// Interfaz del detalle de pedido que regresa del Backend
 export interface IDetallePedidoReturn {
-    id: Number,
-    producto: IProducto,
-    cantidad: Number,
-    subtotal: Number
+    id: number;
+    precioUnitario: number;
+    subtotal: number;
+    cantidad: number;
+    productoDto: IProductoReturn;
 }

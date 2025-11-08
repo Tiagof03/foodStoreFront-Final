@@ -1,4 +1,4 @@
-// /src/types/IUser.ts (Ajustado)
+// /src/types/IUser.ts (CORREGIDO)
 
 import type { Rol } from "./Rol";
 
@@ -7,9 +7,15 @@ import type { Rol } from "./Rol";
  */
 export interface IUser {
     nombre: string;
+    
+    // Propiedad esperada por el código de la app (se asignará en login.ts)
+    id?: number; 
+    
+    // Propiedad real que puede devolver la API (inconsistente)
+    idUsuario?: number; 
+    
     apellido: string;
     email: string;
-    // El rol ahora es el Type Rol
     rol: Rol; 
 }
 

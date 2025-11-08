@@ -1,16 +1,35 @@
-import type {Estado} from './Estado.ts'
-import type { IDetallePedido, IDetallePedidoReturn } from './IDetallePedido.ts'
+import type { Estado } from './Estado.ts';
+import type { IDetallePedidoReturn } from './IDetallePedido.ts';
 
-export interface IPedido {
-    fecha: String,
-    estado: Estado,
-    detallesPedido: IDetallePedido[]
+export interface IDetallePedidoCreate {
+    idProducto: number; 
+    cantidad: number;
 }
 
-export interface IPedidoReturn {
-    id: Number,
-    fecha: String,
-    estado: Estado,
-    precio: Number,
-    detallesPedido: IDetallePedidoReturn[]
+export interface IPedidoCreate {
+    fecha: string; 
+    estado: Estado;
+    telefono: string;
+    direccion: string;
+    metodoPago: string;
+    notas?: string;
+    usuarioId: number;  
+    total: number; 
+    detallesPedido: IDetallePedidoCreate[];
+}
+
+export interface IPedidoBase {
+    // Tipo TypeScript
+    fecha: string; 
+    // Tipo TypeScript
+    estado: Estado;
+}
+
+export interface IPedidoReturn extends IPedidoBase {
+    id: number; 
+    total: number; 
+    metodoPago?: string;
+    direccionEntrega?: string;
+    telefonoContacto?: string;
+    detallesPedido: IDetallePedidoReturn[];
 }

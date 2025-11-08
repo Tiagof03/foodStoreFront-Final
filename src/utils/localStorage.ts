@@ -1,6 +1,6 @@
 import type { IUser } from "../types/IUser";
 
-const USER_STORAGE_KEY = "currentUser";
+const USER_STORAGE_KEY = "userSession";
 
 /**
  * Guarda el objeto de usuario autenticado en el localStorage.
@@ -32,5 +32,42 @@ export function removeUser(): void {
         localStorage.removeItem(USER_STORAGE_KEY);
     } catch (e) {
         console.error("Error al eliminar usuario de localStorage:", e);
+    }
+}
+
+//Guardado de pedidos 
+import type { IPedidoReturn } from "../types/IPedido.js";
+
+const PEDIDOS_KEY = "pedidosUsuario";
+
+/** Guarda un pedido en localStorage */
+export function saveOrder(pedido: IPedidoReturn): void {
+    try {
+        const pedidosJSON = localStorage.getItem(PEDIDOS_KEY);
+        const pedidos: IPedidoReturn[] = pedidosJSON ? JSON.parse(pedidosJSON) : [];
+        pedidos.push(pedido);
+        localStorage.setItem(PEDIDOS_KEY, JSON.stringify(pedidos));
+    } catch (e) {
+        console.error("Error al guardar pedido en localStorage:", e);
+    }
+}
+
+/** Obtiene todos los pedidos del localStorage */
+export function getOrders(): IPedidoReturn[] {
+    try {
+        const pedidosJSON = localStorage.getItem(PEDIDOS_KEY);
+        return pedidosJSON ? JSON.parse(pedidosJSON) : [];
+    } catch (e) {
+        console.error("Error al obtener pedidos de localStorage:", e);
+        return [];
+    }
+}
+
+/** Vacía todos los pedidos (opcional, para pruebas) */
+export function clearOrders(): void {
+    try {
+        localStorage.removeItem(PEDIDOS_KEY);
+    } catch (e) {
+        console.error("Error al eliminar pedidos de localStorage:", e);
     }
 }

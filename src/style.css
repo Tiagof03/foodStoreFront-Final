@@ -341,52 +341,67 @@ input, select {
 }
 
 .product-grid {
-  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  padding: 20px;
+    /* 🛑 CORRECCIÓN CRÍTICA: Definir columnas automáticas */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 30px; /* Aumentamos el espacio entre tarjetas */
+    padding: 0; /* Eliminar padding innecesario */
 }
 
 .tarjeta-producto {
   background-color: rgb(255, 255, 255);
-  width: 30%;
-  border-radius: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
-  padding: 20px;
+    border-radius: 10px; /* Más sutil */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra más pronunciada */
+    text-align: left; /* Alineamos el contenido a la izquierda */
+    padding: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer; /* Indica que es clickeable */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tarjeta-producto:hover {
+    transform: translateY(-3px); /* Efecto 3D al pasar el mouse */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 .tarjeta-producto img {
-  width: 80%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
+  width: 100%; /* La imagen debe ocupar todo el ancho de la tarjeta */
+    height: 180px; /* Altura fija para uniformidad */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
 
 .tarjeta-producto h4 {
-  margin: 10px 0 5px;
-  font-size: 1.1rem;
-  color: var(--dark);
+  font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark);
 }
 
 .tarjeta-producto p {
   font-size: 0.9rem;
-  color: #666;
-  margin: 0 0 10px;
+    color: #777;
+    margin: 5px 0;
+    flex-grow: 1;
 }
 
 .price {
-  font-weight: bold;
-  color: var(--primary);
-  font-size: 1rem;
+  font-weight: 800;
+    color: var(--primary);
+    font-size: 1.4rem; /* Precio más destacado */
+    margin: 10px 0;
+    display: block;
 }
 
 .badge {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 5px;
-  color: var(--light);
-  font-size: 0.8rem;
+  position: absolute; /* Colocamos el badge en la esquina */
+    top: 25px;
+    right: 25px;
+    padding: 5px 10px;
+    z-index: 10
 }
 
 .badge.disponible {
@@ -395,6 +410,25 @@ input, select {
 
 .badge.no-disponible {
   background-color: var(--danger);
+}
+
+.add-to-cart-btn {
+    /* 🛑 NUEVO BOTÓN: Estilo para el botón de compra rápida */
+    width: 100%;
+    padding: 10px;
+    background-color: var(--success); /* Verde para 'Añadir' */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #008f72; /* Tono más oscuro de verde */
 }
 
 .sidebar {
@@ -480,20 +514,19 @@ input, select {
 }
 
 .filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--white);
-    padding: var(--space-md) var(--space-lg); 
-    border-radius: 8px;
+    background-color: #fff; /* Asegurar fondo blanco */
+    padding: 15px 20px;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    margin-bottom: var(--space-lg);
-    gap: var(--space-md);
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
 .input-search {
-    flex: 1;
+    flex: 2;
     min-width: 200px; 
     padding: 8px 12px;
     border: 1px solid var(--gray-light);

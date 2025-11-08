@@ -1,23 +1,34 @@
-import type { IProductoReturn } from "../types/IProducto"
+// /src/utils/cardProduct.ts (ASUMIDO - DEBES REVISAR ESTE ARCHIVO)
 
-export function createProductCard(card: IProductoReturn): HTMLElement {
-    const tarjeta = document.createElement('div')
-    tarjeta.classList.add('tarjeta-producto')
-    const img = document.createElement('img')
-    const nombre = document.createElement('h4')
-    const descripcion = document.createElement('p')
-    const precio = document.createElement('span')
-    precio.classList.add('price')
+import type { IProductoReturn } from '../types/IProducto.js';
 
-    img.src = card.src
-    img.alt = card.nombre
-    nombre.textContent = card.nombre
-    descripcion.textContent = card.descripcion? card.descripcion : 'Sin Descripcion'
-    precio.textContent = `$${card.precio}`
+export function createProductCard(product: IProductoReturn): HTMLElement {
+    const card = document.createElement('div');
+    card.className = 'tarjeta-producto';
+    
+    // 🛑 CRÍTICO: Adjuntar el ID del producto al contenedor para poder usarlo en home.ts
+    card.dataset.productId = String(product.id); 
 
-    tarjeta.appendChild(img)
-    tarjeta.appendChild(nombre)
-    tarjeta.appendChild(descripcion)
-    tarjeta.appendChild(precio)
-    return tarjeta
+    // Lógica para mostrar disponibilidad
+    const stockBadge = product.stock > 0 
+        ? '<div class="badge disponible">Disponible</div>'
+        : '<div class="badge agotado">Agotado</div>';
+
+    // Lógica para el botón (solo si hay stock)
+    const buttonHtml = product.stock > 0
+        ? `<button class="add-to-cart-btn" type="button">Añadir 🛒</button>` // 🛑 El botón debe tener la clase 'add-to-cart-btn'
+        : ''; 
+
+    card.innerHTML = `
+        <img src="${product.src}" alt="${product.nombre}">
+        <h4>${product.nombre}</h4>
+        <p>${product.descripcion || 'Sin Descripción'}</p>
+        <span class="price">$${Number(product.precio).toFixed(2)}</span>
+        
+        ${buttonHtml} 
+        
+        ${stockBadge}
+    `;
+
+    return card;
 }

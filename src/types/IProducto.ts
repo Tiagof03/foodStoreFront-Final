@@ -15,7 +15,7 @@ export interface IProductoReturn {
     id:number,
     nombre:string,
     src:string,
-    precio:Number,
+    precio: number,
     descripcion?: string,
     stock:number,
     categoria:ICategoria
