@@ -163,7 +163,7 @@ export async function createOrder(data: IPedidoCreate): Promise<any> {
  * @returns Array de objetos IPedidoReturn.
  */
 export async function getOrdersByUserId(userId: number): Promise<IPedidoReturn[]> {
-    const response = await fetch(`${API_BASE_URL_PEDIDO}/traerporusuario/${userId}`); 
+    const response = await fetch(`${API_BASE_URL_PEDIDO}/traertodosusuario/${userId}`); 
     return handleResponse<IPedidoReturn[]>(response);
 }
 

@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const user: IUser = await loginUser(payload);
-            if (user.id) {
-                user.id = user.id;
+            if (user.idUsuario) {
+                user.id = user.idUsuario;
             } else if ((user as any).userId) {
                 user.id = (user as any).userId; 
             }
