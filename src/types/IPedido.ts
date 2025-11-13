@@ -1,4 +1,5 @@
 import type { Estado } from './Estado.ts';
+import type { IUser } from './IUser.ts'
 import type { IDetallePedidoReturn } from './IDetallePedido.ts';
 
 export interface IDetallePedidoCreate {
@@ -30,4 +31,5 @@ export interface IPedidoReturn extends IPedidoBase {
     direccionEntrega?: string;
     telefonoContacto?: string;
     detallesPedido: IDetallePedidoReturn[];
+    user: IUser;
 }

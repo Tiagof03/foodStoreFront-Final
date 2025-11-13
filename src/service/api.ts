@@ -153,7 +153,7 @@ export async function createOrder(data: IPedidoCreate): Promise<any> {
         body: JSON.stringify(data),
     });
 
-    return handleResponse<any>(response); 
+    return handleResponse<any>(response);
 }
 
 /**
@@ -164,5 +164,15 @@ export async function createOrder(data: IPedidoCreate): Promise<any> {
  */
 export async function getOrdersByUserId(userId: number): Promise<IPedidoReturn[]> {
     const response = await fetch(`${API_BASE_URL_PEDIDO}/traerporusuario/${userId}`); 
+    return handleResponse<IPedidoReturn[]>(response);
+}
+
+/**
+ * Trae todos los pedidos guardados en la base de datos
+ * No requiere parametros
+ * @returns Array de objetos IPedidoReturn
+*/
+export async function getOrders(): Promise<IPedidoReturn[]> {
+    const response = await fetch(`${API_BASE_URL_PEDIDO}/traertodos`);
     return handleResponse<IPedidoReturn[]>(response);
 }

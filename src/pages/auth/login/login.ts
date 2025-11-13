@@ -25,10 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const user: IUser = await loginUser(payload);
-            if (user.idUsuario) {
-                 user.id = user.idUsuario;
+            if (user.id) {
+                user.id = user.id;
             } else if ((user as any).userId) {
-                 user.id = (user as any).userId; 
+                user.id = (user as any).userId; 
             }
             if (!user.id) { 
                 console.error("❌ La ID de usuario (idUsuario o id) no fue proporcionada por la API. Objeto recibido:", user);
