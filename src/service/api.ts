@@ -4,6 +4,7 @@ import type { IUser, IRegister, ILogin } from "../types/IUser";
 import type { ICategoria, ICategoriaReturn } from "../types/ICategoria";
 import type { IProducto, IProductoReturn } from "../types/IProducto";
 import type { IPedidoCreate, IPedidoReturn } from "../types/IPedido"; // 🛑 Asegúrate de tener IPedidoReturn
+import type { Estado } from "../types/Estado";
 
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/usuario";
@@ -175,4 +176,11 @@ export async function getOrdersByUserId(userId: number): Promise<IPedidoReturn[]
 export async function getOrders(): Promise<IPedidoReturn[]> {
     const response = await fetch(`${API_BASE_URL_PEDIDO}/traertodos`);
     return handleResponse<IPedidoReturn[]>(response);
+}
+
+export async function editEstado(orderId: number, estado: Estado): Promise<any> {
+    const response = await fetch(`${API_BASE_URL_PEDIDO}/editarestado/${orderId}/${estado}`,{
+        method: "PUT",
+    })
+    return handleResponse<any>(response)
 }
