@@ -29,7 +29,7 @@ const getEstadoClass = (estado: string): string => {
 
 async function handleStatusChange(pedidoId: number, newStatus: Estado) {
     if (!confirm(`¿Seguro que deseas cambiar el estado del Pedido #${pedidoId} a ${newStatus.toUpperCase()}? 
-        (Recuerda: Si el estado es CANCELADO, tu backend debe restaurar el stock)`)) {
+    Esta acción no se puede deshacer.`)) {
         return;
     }
 
@@ -52,11 +52,9 @@ function createAdminPedidoCard(pedido: IPedidoReturn): HTMLElement {
         year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
     });
 
-    // Accede al objeto de usuario usando la clave del DTO (usuarioDto) o la clave de la interfaz (user)
     const usuarioInfo = (pedido as any).usuarioDto || pedido.user;
     const clienteNombreCompleto = `${usuarioInfo?.nombre || ''} ${usuarioInfo?.apellido || ''}`.trim();
 
-    // Asegura el acceso correcto al nombre del producto
     const detallesList = pedido.detallesPedido.map(item => 
         `<li>${(item as any).productoDto?.nombre || 'Producto Desconocido'} (x${item.cantidad})</li>`
     ).join('');
@@ -121,7 +119,7 @@ async function loadAdminOrders() {
 
     } catch (error) {
         console.error("Error cargando pedidos de admin:", error);
-        adminPedidosListContainer.innerHTML = '<p class="error-message">Error al cargar la lista de pedidos. Revisa la consola y tu endpoint de API.</p>';
+        adminPedidosListContainer.innerHTML = '<p class="error-message">Error al cargar la lista de pedidos. Revisa la consola.</p>';
     }
 }
 

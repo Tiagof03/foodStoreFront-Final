@@ -5,6 +5,7 @@ import type { IUser } from '../../../types/IUser.js';
 import { loadUser } from '../../../utils/localStorage.js';
 import type { Estado } from '../../../types/Estado.js'; 
 import { logout } from "../../../utils/auth.ts"; 
+
 const buttonLogout = document.querySelector(".boton-sesion") as HTMLButtonElement | null;
 buttonLogout?.addEventListener("click", () => {
     logout();
@@ -23,7 +24,6 @@ interface PedidoLocal {
     id: number;
     user: IUser;
     fecha: string;
-    // Usamos string aquí pero sabemos que los valores son los de Estado
     estado: string; 
     detallesPedido: DetallePedido[];
     total: number;
@@ -61,10 +61,8 @@ const handleCancelOrder = async (pedidoId: number) => {
 
     try {
         await editEstado(pedidoId, "cancelado" as Estado);
-        
         alert(`✅ Pedido #ORD-${pedidoId} cancelado con éxito.`);
         await loadOrders(); 
-        
     } catch (error) {
         console.error("Error al cancelar el pedido:", error);
         alert("❌ Error al cancelar el pedido. Por favor, intenta de nuevo o contacta a soporte.");
@@ -76,11 +74,9 @@ const createPedidoCard = (pedido: PedidoLocal): HTMLElement => {
     const card = document.createElement("div");
     card.className = "pedido-card";
     card.dataset.pedidoId = String(pedido.id);
-
     const detalles = pedido.detallesPedido || [];
     const detallesValidos = detalles.filter(item => item.productoDto && item.productoDto.nombre);
     const totalItems = detallesValidos.reduce((sum, item) => sum + item.cantidad, 0);
-
     const fecha = new Date(pedido.fecha).toLocaleDateString("es-ES", {
         year: "numeric",
         month: "long",
@@ -192,19 +188,15 @@ const loadOrders = async () => {
         console.error("Error leyendo pedidos del API", err);
         pedidosLocales = [];
     }
-
     if (pedidosLocales.length === 0) {
         pedidosListContainer.innerHTML = '<p class="info-message">Aún no tienes pedidos registrados.</p>';
         return;
     }
-
     const uniqueOrdersMap = new Map<number, PedidoLocal>();
     pedidosLocales.forEach(pedido => {
         uniqueOrdersMap.set(pedido.id, pedido);
     });
-
     pedidosLocales = Array.from(uniqueOrdersMap.values()).reverse(); 
-
     allLoadedOrders = pedidosLocales;
     displayOrders(allLoadedOrders);
 };
