@@ -1,5 +1,11 @@
 import { getOrders } from '../../../service/api.js'
 import type { IUser } from '../../../types/IUser.js';
+import { logout } from "../../../utils/auth";
+
+const buttonLogout = document.getElementById("logoutButton") as HTMLButtonElement;
+buttonLogout?.addEventListener("click", () => {
+  logout();
+});
 
 interface ProductoDetalleLocal {
     nombre: string;

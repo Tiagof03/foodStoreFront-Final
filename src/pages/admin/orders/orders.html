@@ -16,10 +16,10 @@
         <h1>🍕 FoodStore</h1>
       </div>
       <div class="navbar-right">
-        <a href="../orders/orders.html" class="nav-btn pAd">Pedidos</a>
+        <a href="../home/home.html" class="nav-btn pAd">Panel de Administracion</a>
         <a href="../categorias/categorias.html" class="nav-btn cat">Categorías</a>
         <a href="../productos/productos.html" class="nav-btn pro">Productos</a>
-        <button id="button_logout" class="btn-logout">Logout</button>
+        <button id="logoutButton" class="btn-logout">Logout</button>
       </div>
     </nav>
   </header>
@@ -29,20 +29,27 @@
       <h2>Administración</h2>
       <p class="subtitulo">Panel de control</p>
       <ul>
-        <li><span class="icon">📊</span> Dashboard</li>
         <li class="activo"><span class="icon">📁</span> Categorías</li>
         <li><span class="icon">🍔</span> Productos</li>
         <li><span class="icon">📦</span> Pedidos</li>
-
-        <hr class="separador-menu" />
-
-        <li class="ver-tienda"><span class="icon">🗓</span> Ver Tienda</li>
       </ul>
     </aside>
 
-    <main class="panel-principal">
-      <h1>Gestión de Pedidos</h1>
-    </main>
+    <main class="pedidos-container"> 
+    <div class="titulo-filtro">
+        <h2 class="page-title"></h2>Gestor de Pedidos</h2>
+        <select class="filtro-select">
+            <option value="todos">Todos</option>
+            <option value="PENDIENTE">Pendiente</option>
+            <option value="ENVIADO">Enviado</option>
+            <option value="ENTREGADO">Entregado</option>
+            <option value="CANCELADO">Cancelado</option>
+            </select>
+    </div>
+    
+    <div id="pedidos-list-target" class="pedidos-list-target">
+        </div>
+</main>
   </div>
 
   <script type="module" src="orders.ts"></script>
