@@ -1,57 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel de Administración</title>
-  <link rel="stylesheet" href="../../../style.css">
-  <link rel="stylesheet" href="../../admin/home/stylesAdmin.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración - Pedidos</title>
+  <link rel="stylesheet" href="../../../style.css">
+  <link rel="stylesheet" href="../../admin/home/stylesAdmin.css" />
 </head>
 <body id="body--home-admin">
 
-  <header id="header--home--admin">
-    <nav id="navbar--admin" class="navbar">
-      <div id="logo-foodstore">
-        <span class="icono-pizza"></span>
-        <h1>🍕 FoodStore</h1>
-      </div>
-      <div class="navbar-right">
-        <a href="../home/home.html" class="nav-btn pAd">Panel de Administracion</a>
-        <a href="../categorias/categorias.html" class="nav-btn cat">Categorías</a>
-        <a href="../productos/productos.html" class="nav-btn pro">Productos</a>
-        <button id="logoutButton" class="btn-logout">Logout</button>
-      </div>
-    </nav>
-  </header>
+  <header id="header--home--admin">
+    <nav id="navbar--admin" class="navbar">
+      <div id="logo-foodstore">
+        <span class="icono-pizza"></span>
+        <h1>🍕 FoodStore</h1>
+      </div>
+      <div class="navbar-right">
+        <a href="../home/home.html" class="nav-btn pAd">Panel de Administracion</a>
+        <a href="../categorias/categorias.html" class="nav-btn cat">Categorías</a>
+        <a href="../productos/productos.html" class="nav-btn pro">Productos</a>
+        <button id="logoutButton" class="btn-logout">Logout</button>
+      </div>
+    </nav>
+  </header>
 
-  <div class="contenedor">
-    <aside class="menu-lateral">
-      <h2>Administración</h2>
-      <p class="subtitulo">Panel de control</p>
-      <ul>
-        <li class="activo"><span class="icon">📁</span> Categorías</li>
-        <li><span class="icon">🍔</span> Productos</li>
-        <li><span class="icon">📦</span> Pedidos</li>
-      </ul>
-    </aside>
+  <div class="contenedor">
+    <aside class="sidebar">
+            <ul>
+                <li><a href="../orders/orders.html" class="active">Pedidos 📦</a></li>
+                <li><a href="../categorias/categorias.html">Categorías 📁</a></li>
+                <li><a href="../productos/productos.html" >Productos 🍔</a></li>
+            </ul>
+        </aside>
 
-    <main class="pedidos-container"> 
-    <div class="titulo-filtro">
-        <h2 class="page-title"></h2>Gestor de Pedidos</h2>
-        <select class="filtro-select">
-            <option value="todos">Todos</option>
-            <option value="PENDIENTE">Pendiente</option>
-            <option value="ENVIADO">Enviado</option>
-            <option value="ENTREGADO">Entregado</option>
-            <option value="CANCELADO">Cancelado</option>
-            </select>
-    </div>
-    
-    <div id="pedidos-list-target" class="pedidos-list-target">
-        </div>
-</main>
-  </div>
+    <main class="pedidos-container"> 
+        <h2 class="page-title">Gestor de Pedidos</h2>
+        
+                <div id="admin-pedidos-list" class="pedidos-list-target">
+        </div>
+    </main>
+  </div>
 
-  <script type="module" src="orders.ts"></script>
+    <script type="module" src="orders.ts"></script>
 </body>
 </html>

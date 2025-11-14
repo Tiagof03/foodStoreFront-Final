@@ -14,7 +14,6 @@ buttonLogout?.addEventListener("click", () => {
 });
 
 const contProducts = document.getElementById('contProducts') as HTMLElement | null; 
-
 const initPage = () => {
     checkAuhtUser(
         "/src/pages/auth/login/login.html", 
@@ -53,11 +52,19 @@ contProducts?.addEventListener('click', (e) => {
         console.error("ID de producto no encontrado en la tarjeta.");
         return;
     }
+    
     if (target.classList.contains('add-to-cart-btn')) {
+        if (target.hasAttribute('disabled')) {
+             e.preventDefault();
+             alert("❌ Producto sin stock disponible.");
+             return;
+        }
+
         e.preventDefault();
         handleQuickAddToCart(Number(productId));
         return; 
     }
+    
     if (cardElement && !target.closest('a')) { 
         window.location.href = `../detail/productDetail.html?id=${productId}`;
     }
@@ -66,6 +73,13 @@ contProducts?.addEventListener('click', (e) => {
 const handleQuickAddToCart = async (productId: number) => {
     try {
         const productData: IProductoReturn = await getProductById(productId); 
+        
+        if (productData.stock <= 0) {
+            alert(`❌ Lo sentimos, ${productData.nombre} está agotado.`);
+            renderProducts(); 
+            return;
+        }
+
         addToCart(productData, 1);
         alert(`✅ 1 unidad de ${productData.nombre} añadida al carrito!`);
         

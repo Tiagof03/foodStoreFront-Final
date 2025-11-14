@@ -1,11 +1,7 @@
-// /src/pages/client/store/productDetail.ts
-
-// 🛑 IMPORTACIÓN CORREGIDA: Asumimos que crearás getProductById
 import { getProductById } from "../../../service/api.ts"; 
 import { addToCart } from "../../../utils/Maincart.ts";
 import type { IProductoReturn } from '../../../types/IProducto.js';
 
-// 🛑 CORRECCIÓN DE REFERENCIAS DOM: Usamos las clases y IDs reales del HTML
 const mainContainer = document.querySelector('.product-container') as HTMLElement | null; // El contenedor principal
 const productTitle = document.querySelector('.product-title') as HTMLElement | null;
 const productPrice = document.querySelector('.product-price') as HTMLElement | null;
@@ -32,13 +28,9 @@ const renderProductDetail = async () => {
     }
 
     try {
-        // 🛑 CORRECCIÓN CRÍTICA 1: Usar getProductById para el ID específico
-        // (Debes implementar getProductById en api.ts)
         currentProduct = await getProductById(productId); 
         
-        // 🛑 CORRECCIÓN CRÍTICA 2: Rellenar los elementos HTML existentes
         if (productTitle) productTitle.textContent = currentProduct.nombre;
-        // Usamos Number() para asegurar que la propiedad precio (Number) se maneje como number
         if (productPrice) productPrice.textContent = `$${Number(currentProduct.precio).toFixed(2)}`;
         if (discountBadge) discountBadge.textContent = `En Stock ${currentProduct.stock}`;
         if (productDescription) productDescription.textContent = currentProduct.descripcion || 'Sin descripción.';
@@ -47,7 +39,6 @@ const renderProductDetail = async () => {
              productImg.alt = currentProduct.nombre;
         }
 
-        // Ajustar el input de cantidad y el botón de carrito
         if (quantityInput) {
             quantityInput.value = '1';
             quantityInput.min = '1';
@@ -65,7 +56,6 @@ const renderProductDetail = async () => {
     }
 };
 
-// 🛑 Añadir el Event Listener principal para el botón "Agregar al Carrito"
 addToCartBtn?.addEventListener('click', () => {
     if (currentProduct && quantityInput) {
         const quantity = parseInt(quantityInput.value);
@@ -81,7 +71,6 @@ addToCartBtn?.addEventListener('click', () => {
     }
 });
 
-// 🛑 Añadir Event Listeners para los botones +/- (ya que eliminamos los onclick del HTML)
 const quantityControls = document.querySelector('.quantity-controls');
 quantityControls?.addEventListener('click', (e) => {
     const target = e.target as HTMLButtonElement;

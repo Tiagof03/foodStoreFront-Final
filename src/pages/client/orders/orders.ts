@@ -1,7 +1,14 @@
-import { getOrdersByUserId } from '../../../service/api.js'
+// /src/pages/store/orders/orders.ts
+
+import { getOrdersByUserId, editEstado } from '../../../service/api.js' 
 import type { IUser } from '../../../types/IUser.js';
 import { loadUser } from '../../../utils/localStorage.js';
-
+import type { Estado } from '../../../types/Estado.js'; 
+import { logout } from "../../../utils/auth.ts"; 
+const buttonLogout = document.querySelector(".boton-sesion") as HTMLButtonElement | null;
+buttonLogout?.addEventListener("click", () => {
+    logout();
+});
 interface ProductoDetalleLocal {
     nombre: string;
 }
@@ -16,7 +23,8 @@ interface PedidoLocal {
     id: number;
     user: IUser;
     fecha: string;
-    estado: string;
+    // Usamos string aquí pero sabemos que los valores son los de Estado
+    estado: string; 
     detallesPedido: DetallePedido[];
     total: number;
     telefonoContacto: string;
@@ -36,11 +44,9 @@ const getEstadoClass = (estado: string): string => {
     switch (normalizeEstado(estado)) {
         case "PENDIENTE":
             return "estado-pendiente";
-        case "EN_PREPARACION":
-            return "estado-preparacion";
-        case "ENVIADO":
-            return "estado-enviado";
-        case "ENTREGADO":
+        case "CONFIRMADO": 
+            return "estado-confirmado";
+        case "TERMINADO":
             return "estado-entregado";
         case "CANCELADO":
             return "estado-cancelado";
@@ -48,6 +54,23 @@ const getEstadoClass = (estado: string): string => {
             return "estado-default";
     }
 };
+const handleCancelOrder = async (pedidoId: number) => {
+    if (!confirm(`¿Estás seguro de que quieres cancelar el Pedido #ORD-${pedidoId}? Esta acción no se puede deshacer.`)) {
+        return;
+    }
+
+    try {
+        await editEstado(pedidoId, "cancelado" as Estado);
+        
+        alert(`✅ Pedido #ORD-${pedidoId} cancelado con éxito.`);
+        await loadOrders(); 
+        
+    } catch (error) {
+        console.error("Error al cancelar el pedido:", error);
+        alert("❌ Error al cancelar el pedido. Por favor, intenta de nuevo o contacta a soporte.");
+    }
+}
+
 
 const createPedidoCard = (pedido: PedidoLocal): HTMLElement => {
     const card = document.createElement("div");
@@ -98,6 +121,20 @@ const createPedidoCard = (pedido: PedidoLocal): HTMLElement => {
 
     const footer = document.createElement("div");
     footer.className = "pedido-footer";
+    
+    const isPending = pedido.estado.toLowerCase() === 'pendiente';
+    
+    if (isPending) {
+        const btnCancel = document.createElement("button");
+        btnCancel.className = "btn-cancelar-pedido btn-danger"; 
+        btnCancel.textContent = "❌ Cancelar Pedido";
+        btnCancel.dataset.pedidoId = String(pedido.id);
+        
+        footer.appendChild(btnCancel);
+    }
+    
+    const summaryContainer = document.createElement("div");
+    summaryContainer.className = "pedido-summary";
 
     const spanProductos = document.createElement("span");
     spanProductos.className = "pedido-productos";
@@ -107,8 +144,11 @@ const createPedidoCard = (pedido: PedidoLocal): HTMLElement => {
     spanTotal.className = "pedido-total";
     spanTotal.textContent = `$${pedido.total.toFixed(2)}`;
 
-    footer.appendChild(spanProductos);
-    footer.appendChild(spanTotal);
+    summaryContainer.appendChild(spanProductos);
+    summaryContainer.appendChild(spanTotal);
+
+    footer.appendChild(summaryContainer);
+
 
     card.appendChild(header);
     card.appendChild(fechaP);
@@ -149,7 +189,7 @@ const loadOrders = async () => {
         const pedidosAPI = await getOrdersByUserId(user.id as number); 
         pedidosLocales = pedidosAPI as PedidoLocal[];
     } catch (err) {
-        console.error("Error leyendo pedidos del localStorage", err);
+        console.error("Error leyendo pedidos del API", err);
         pedidosLocales = [];
     }
 
@@ -203,6 +243,15 @@ const showPedidoDetails = (pedido: PedidoLocal) => {
 
 pedidosListContainer?.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
+
+    if (target.classList.contains('btn-cancelar-pedido')) {
+        const pedidoId = Number(target.dataset.pedidoId);
+        if (!isNaN(pedidoId)) {
+            handleCancelOrder(pedidoId);
+        }
+        return; 
+    }
+
     const card = target.closest(".pedido-card") as HTMLElement;
     if (!card) return;
 
@@ -219,10 +268,11 @@ pedidosListContainer?.addEventListener("click", (e) => {
 
 filtroSelect?.addEventListener("change", () => {
     const selectedState = filtroSelect.value;
+    const normalizedSelectedState = selectedState.toLowerCase();
 
-    const filteredOrders = (selectedState === "TODOS" || selectedState === "")
+    const filteredOrders = (normalizedSelectedState === "todos" || normalizedSelectedState === "")
         ? allLoadedOrders
-        : allLoadedOrders.filter(p => normalizeEstado(p.estado) === normalizeEstado(selectedState));
+        : allLoadedOrders.filter(p => p.estado.toLowerCase() === normalizedSelectedState);
 
     displayOrders(filteredOrders);
 });

@@ -1086,4 +1086,27 @@ input, select {
   font-weight: bold;
 }
 
+.btn-cancelar-pedido {
+    background-color: var(--dark); 
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    margin-top: 10px; 
+}
 
+.btn-cancelar-pedido:hover {
+    background-color: var(--danger);
+}
+
+.pedido-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}

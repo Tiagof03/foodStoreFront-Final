@@ -32,7 +32,7 @@ export const checkAuhtUser = (
     const user = loadUser(); 
 
     if (!user || !user.rol) { 
-        return navigateTo(loginPath); // Redirige al login.
+        return navigateTo(loginPath); 
     }
     if (user.rol.toLowerCase() !== requiredRole.toLowerCase()) {
         return navigateTo(forbiddenPath); 

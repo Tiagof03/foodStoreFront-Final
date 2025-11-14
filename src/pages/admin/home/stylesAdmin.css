@@ -19,10 +19,6 @@
     --primary-rgb: 255, 107, 53; 
 }
 
-/* ... (Mantener estilos de .id--body, .card, .title, .subtitle, .btn--log--reg, etc.) ... */
-
-/* --- Estilos de Navegación (Header y Sidebar) --- */
-
 header {
     background-color: var(--white);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -59,6 +55,7 @@ header {
 
 .nav-btn {
     text-decoration: none;
+    border: 1px solid var(--gray-dark);
     color: var(--dark);
     padding: 8px 12px;
     border-radius: 5px;

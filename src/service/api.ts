@@ -3,7 +3,7 @@
 import type { IUser, IRegister, ILogin } from "../types/IUser";
 import type { ICategoria, ICategoriaReturn } from "../types/ICategoria";
 import type { IProducto, IProductoReturn } from "../types/IProducto";
-import type { IPedidoCreate, IPedidoReturn } from "../types/IPedido"; // 🛑 Asegúrate de tener IPedidoReturn
+import type { IPedidoCreate, IPedidoReturn } from "../types/IPedido"; 
 import type { Estado } from "../types/Estado";
 
 
@@ -23,7 +23,6 @@ async function handleResponse<T>(response: Response): Promise<T> {
     }
     if (!response.ok) {
         const errorBody = await response.text();
-        // Incluimos la URL en el error para facilitar el debug
         throw new Error(errorBody || `Error HTTP: ${response.status} en ${response.url}`); 
     }
     const contentType = response.headers.get("content-type");
@@ -99,10 +98,6 @@ export async function getAllProducts(): Promise<IProductoReturn[]> {
     return handleResponse<IProductoReturn[]>(response);
 }
 
-/**
- * Trae un producto por su ID.
- * Endpoint: /producto/traerid/{id}
- */
 export const getProductById = async (id: number): Promise<IProductoReturn> => {
     const response = await fetch(`${API_BASE_URL_PRODUCTO}/traerid/${id}`); 
     return handleResponse<IProductoReturn>(response);
@@ -149,7 +144,6 @@ export async function createOrder(data: IPedidoCreate): Promise<any> {
         method: "POST",
         headers: { 
             "Content-Type": "application/json",
-            // Si usas JWT, aquí iría el 'Authorization'
         },
         body: JSON.stringify(data),
     });
@@ -172,14 +166,16 @@ export async function getOrdersByUserId(userId: number): Promise<IPedidoReturn[]
  * Trae todos los pedidos guardados en la base de datos
  * No requiere parametros
  * @returns Array de objetos IPedidoReturn
-*/
+ */
 export async function getOrders(): Promise<IPedidoReturn[]> {
     const response = await fetch(`${API_BASE_URL_PEDIDO}/traertodos`);
     return handleResponse<IPedidoReturn[]>(response);
 }
 
 export async function editEstado(orderId: number, estado: Estado): Promise<any> {
-    const response = await fetch(`${API_BASE_URL_PEDIDO}/editarestado/${orderId}/${estado}`,{
+    const estadoUpper = estado.toUpperCase(); 
+
+    const response = await fetch(`${API_BASE_URL_PEDIDO}/editarestado/${orderId}/${estadoUpper}`,{
         method: "PUT",
     })
     return handleResponse<any>(response)
